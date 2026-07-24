@@ -1,0 +1,128 @@
+openapi: 3.0.3
+info:
+  title: Smile ID V3 Authentication API
+  version: 1.0.0
+  description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
+  contact:
+    name: Smile ID Support
+    url: https://docs.usesmileid.com/
+  x-logo:
+    url: https://smileidentity.com
+servers:
+- url: https://api.smileidentity.com
+  description: Production
+- url: https://api.sandbox.smileidentity.com
+  description: Sandbox
+security:
+- SmileIDToken: []
+tags:
+- name: Authentication
+paths:
+  /v3/token:
+    post:
+      operationId: getV3Token
+      tags:
+      - Authentication
+      summary: Generate v3 Auth Token
+      description: Issues a short-lived JWT for authenticating subsequent v3 API requests.
+      parameters:
+      - name: smileid-partner-id
+        in: header
+        required: true
+        description: Your unique partner identifier. Must be numeric with no leading zeros.
+        schema:
+          type: string
+          pattern: ^[1-9]\d*$
+      - name: smileid-api-key
+        in: header
+        required: true
+        description: Your partner API key for authentication.
+        schema:
+          type: string
+      requestBody:
+        description: Optional parameters to be included in the generated token.
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: Optional partner-provided user identifier.
+                partner_params:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: Key-value metadata for partner reference.
+                product:
+                  type: string
+                  description: The product or service the token will be used for.
+                  enum:
+                  - aml
+                  - basic_kyc
+                  - one_time_aml
+                  - biometric_kyc
+                  - address_verification
+                  - document_verification
+                  - enhanced_document_verification
+                  - enhanced_kyc
+                  - phone_number_verification
+                  - smart_selfie_authentication
+                  - smart_selfie_registration
+                  - smart_selfie_compare
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token for authenticating subsequent v3 API requests.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Unsupported Media Type — request body, if provided, must be multipart/form-data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+  securitySchemes:
+    SmileIDToken:
+      type: apiKey
+      in: header
+      name: SmileID-Token
+      description: JWT token obtained from `POST /v3/token`.

@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  title: Smile ID V3 Authentication Callback Replay API
+  version: 1.0.0
+  description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
+  contact:
+    name: Smile ID Support
+    url: https://docs.usesmileid.com/
+  x-logo:
+    url: https://smileidentity.com
+servers:
+- url: https://api.smileidentity.com
+  description: Production
+- url: https://api.sandbox.smileidentity.com
+  description: Sandbox
+security:
+- SmileIDToken: []
+tags:
+- name: Callback Replay
+paths:
+  /v3/replay/{job_id}:
+    post:
+      operationId: replayCallback
+      tags:
+      - Callback Replay
+      summary: Replay a callback for a completed verification
+      description: 'Looks up a previously completed verification by its TypeID, resolves the callback URL, and re-sends the callback. The verification must have reached a terminal state (clear, block, attention, or error) before its callback can be replayed.
+
+        An optional `callback_url` in the request body overrides the stored URL, subject to the partner''s callback domain allowlist.'
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        description: TypeID format verification identifier with 'job_' prefix.
+        schema:
+          type: string
+          pattern: ^job_[0-9a-z]{26}$
+      requestBody:
+        required: false
+        description: Optional body to override the callback URL. If omitted, the stored callback URL (from the original verification or partner default) is used.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplayCallbackRequest'
+      responses:
+        '202':
+          description: Callback replay accepted and queued for delivery.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReplayCallbackResponse'
+        '400':
+          description: Bad Request — invalid job_id format, unrecognised product, or no valid callback URL available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized — invalid or missing authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden — IP not in allowlist, callback URL not in allowed domains, or security checks failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found — verification does not exist, does not belong to this partner, or has no reference entry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict — verification has not yet reached a terminal state. Wait for processing to complete before replaying the callback.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ReplayCallbackRequest:
+      type: object
+      properties:
+        callback_url:
+          type: string
+          format: uri
+          description: Override callback URL. Must be on the partner's callback domain allowlist. If omitted, the stored callback URL is used.
+    ReplayCallbackResponse:
+      type: object
+      required:
+      - status
+      - job_id
+      - user_id
+      - message
+      properties:
+        status:
+          type: string
+          description: Always 'accepted' for successful replay requests.
+          enum:
+          - accepted
+        job_id:
+          type: string
+          description: TypeID format verification identifier.
+        user_id:
+          type: string
+          description: User ID associated with the verification (from partner_params).
+        message:
+          type: string
+          description: Human-readable confirmation message.
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+  securitySchemes:
+    SmileIDToken:
+      type: apiKey
+      in: header
+      name: SmileID-Token
+      description: JWT token obtained from `POST /v3/token`.

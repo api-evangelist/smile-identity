@@ -1,0 +1,203 @@
+openapi: 3.0.3
+info:
+  title: Smile ID V3 Authentication Users API
+  version: 1.0.0
+  description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
+  contact:
+    name: Smile ID Support
+    url: https://docs.usesmileid.com/
+  x-logo:
+    url: https://smileidentity.com
+servers:
+- url: https://api.smileidentity.com
+  description: Production
+- url: https://api.sandbox.smileidentity.com
+  description: Sandbox
+security:
+- SmileIDToken: []
+tags:
+- name: Users
+paths:
+  /v3/users/{user_id}/report_fraud:
+    post:
+      operationId: reportUserFraud
+      tags:
+      - Users
+      summary: Flag or clear fraud status for a user
+      description: 'Records a fraud report (or fraud-clearance) for a previously enrolled
+
+        user.
+
+
+        Use `is_fraud: true` to flag a user as fraudulent, or `is_fraud: false`
+
+        to clear a previous flag. Flagging propagates the user''s face, device,
+
+        and biometric clusters to the relevant block lists so that subsequent
+
+        verifications matching them are rejected. Clearing the flag reverses
+
+        these effects.
+
+
+        The response is `202 Accepted` once the request has been validated
+
+        and handled.
+
+        '
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: 'The partner-scoped user identifier of the enrolled user being
+
+          reported. This is the `user_id` value originally provided during
+
+          enrollment.
+
+          '
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReportUserFraudRequest'
+      responses:
+        '202':
+          description: Fraud report accepted and queued for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportUserFraudAcceptedResponse'
+        '400':
+          description: "Validation error. Possible causes:\n- `user_id` path parameter is missing.\n- `is_fraud` is missing or not a boolean.\n- `reason` is missing when `is_fraud` is `true`, or is not one of\n  the allowed values.\n- `notes` is missing when `is_fraud` is `false` or `reason` is\n  `OTHER`.\n- `notes` exceeds 500 characters.\n- `reported_by` is missing or is not a valid email address.\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed (invalid or missing token).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 'Access denied. Possible causes:
+
+            - IP address is on the blocklist.
+
+            - IP not in partner''s allowlist.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: No enrollee found for the given `user_id` and partner.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: 'Wrong or missing `Content-Type` header. The request body must be
+
+            sent as `multipart/form-data`.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ReportUserFraudAcceptedResponse:
+      type: object
+      required:
+      - status
+      - user_id
+      properties:
+        status:
+          type: string
+          enum:
+          - accepted
+          description: Always `accepted` when the request was queued for processing.
+        message:
+          type: string
+          description: Human-readable result message.
+        user_id:
+          type: string
+          description: The `user_id` that was reported.
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+    ReportUserFraudRequest:
+      type: object
+      required:
+      - is_fraud
+      - reported_by
+      properties:
+        is_fraud:
+          type: boolean
+          description: '`true` to flag the user as fraudulent, `false` to clear a previous
+
+            fraud flag.
+
+            '
+        reason:
+          type: string
+          description: 'Reason for the fraud report. **Required when `is_fraud` is `true`**;
+
+            ignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`
+
+            becomes required.
+
+            '
+          enum:
+          - FIRST_PARTY_FRAUD
+          - SECOND_PARTY_FRAUD
+          - THIRD_PARTY_FRAUD
+          - SYNTHETIC_IDENTITY
+          - ACCOUNT_TAKEOVER
+          - DOCUMENT_FORGERY
+          - IDENTITY_FARMING
+          - MULE_ACCOUNT
+          - OTHER
+        notes:
+          type: string
+          maxLength: 500
+          description: 'Free-form notes describing the fraud report. **Required when**
+
+            either `is_fraud` is `false` or `reason` is `OTHER`. Optional in
+
+            all other cases. Capped at 500 characters.
+
+            '
+        reported_by:
+          type: string
+          format: email
+          description: Email address of the person submitting the report.
+      additionalProperties: true
+  securitySchemes:
+    SmileIDToken:
+      type: apiKey
+      in: header
+      name: SmileID-Token
+      description: JWT token obtained from `POST /v3/token`.

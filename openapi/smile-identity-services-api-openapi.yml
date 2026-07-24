@@ -1,0 +1,372 @@
+openapi: 3.0.3
+info:
+  title: Smile ID V3 Authentication Services API
+  version: 1.0.0
+  description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
+  contact:
+    name: Smile ID Support
+    url: https://docs.usesmileid.com/
+  x-logo:
+    url: https://smileidentity.com
+servers:
+- url: https://api.smileidentity.com
+  description: Production
+- url: https://api.sandbox.smileidentity.com
+  description: Sandbox
+security:
+- SmileIDToken: []
+tags:
+- name: Services
+paths:
+  /v3/services/bank_codes:
+    get:
+      operationId: getBankCodes
+      tags:
+      - Services
+      summary: List bank codes
+      description: 'Returns a list of bank codes supported for bank-account-based identity
+
+        verification. Optionally filtered by country.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/CountryFilter'
+      responses:
+        '200':
+          description: Successful response containing bank codes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankCodesResponse'
+        '403':
+          description: Request blocked (IP blocked).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v3/services/supported_id_types:
+    get:
+      operationId: getSupportedIdTypes
+      tags:
+      - Services
+      summary: List supported KYC ID types
+      description: 'Returns a list of all KYC ID types supported for identity verification,
+
+        including their validation regex, required fields, and optional bank code.
+
+        Optionally filtered by country.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/CountryFilter'
+      responses:
+        '200':
+          description: Successful response containing supported ID types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportedIdTypesResponse'
+        '403':
+          description: Request blocked (IP blocked).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v3/services/id_status:
+    get:
+      operationId: getIdStatus
+      tags:
+      - Services
+      summary: Get ID type availability status
+      description: 'Returns the current availability and success rate for a specific ID type
+
+        in a given country, based on uptime data from the last hour.
+
+
+        Requires authentication via JWT token.
+
+        '
+      parameters:
+      - name: country
+        in: query
+        required: true
+        description: ISO 3166-1 alpha-2 country code or full country name (e.g. "NG" or "Nigeria").
+        schema:
+          type: string
+      - name: id_type
+        in: query
+        required: true
+        description: The ID type code to check status for (e.g. "BVN", "NIN", "VOTER_ID").
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ID status retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdStatusResponse'
+        '400':
+          description: Bad request – missing or invalid parameters, or no uptime data found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdStatusErrorResponse'
+        '401':
+          description: Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdStatusErrorResponse'
+  /v3/services/supported_documents:
+    get:
+      operationId: getSupportedDocuments
+      tags:
+      - Services
+      summary: List supported documents for verification
+      description: 'Returns a list of supported document types for identity verification across all
+
+        countries served by Smile Identity.
+
+
+        The response can be filtered by continent or country code. An optional `locale`
+
+        parameter controls the language of document names.
+
+
+        This endpoint does not require authentication. It is an alias of
+
+        `GET /v1/valid_documents` and `GET /v3/valid-documents`.
+
+        '
+      parameters:
+      - name: continent
+        in: query
+        required: false
+        description: Filter results to a single continent.
+        schema:
+          type: string
+          enum:
+          - AFRICA
+          - ASIA
+          - EUROPE
+          - NORTH AMERICA
+          - OCEANIA
+          - SOUTH AMERICA
+      - name: country_code
+        in: query
+        required: false
+        description: 'Filter results to a single country. Must be an ISO 3166-1 alpha-2 code
+
+          (two uppercase letters).
+
+          '
+        schema:
+          type: string
+          pattern: ^[A-Z]{2}$
+      - name: locale
+        in: query
+        required: false
+        description: 'Locale for document names. Defaults to `en-GB`.
+
+          Supported values: `en-GB`, `fr-FR`, `ar-EG`.
+
+          '
+        schema:
+          type: string
+          default: en-GB
+          enum:
+          - en-GB
+          - fr-FR
+          - ar-EG
+      responses:
+        '200':
+          description: List of supported documents, optionally filtered.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportedDocumentsResponse'
+        '400':
+          description: Invalid query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BankCode:
+      type: object
+      required:
+      - code
+      - country
+      - name
+      properties:
+        code:
+          type: string
+          description: Numeric bank code assigned by the country's central bank.
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+        name:
+          type: string
+          description: Human-readable bank name.
+    SupportedIdTypesResponse:
+      type: object
+      properties:
+        id_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedIdType'
+    SupportedDocumentsResponse:
+      type: object
+      required:
+      - valid_documents
+      properties:
+        valid_documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedDocument'
+    IDType:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Machine-readable ID type code.
+        name:
+          type: string
+          description: Human-readable name of the ID type.
+        has_back:
+          type: boolean
+          description: Whether this document type has a back side that should be captured.
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+    SupportedDocument:
+      type: object
+      properties:
+        country:
+          $ref: '#/components/schemas/Country'
+        id_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDType'
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+        name:
+          type: string
+          description: Country name.
+        continent:
+          type: string
+          description: Continent name.
+    IdStatusResponse:
+      type: object
+      required:
+      - last_checked
+      - last_check_status
+      - last_hour_success_rate
+      - last_known_status
+      - last_check_success_rate
+      properties:
+        last_checked:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent uptime check.
+        last_check_status:
+          type: string
+          enum:
+          - success
+          - failure
+          description: Whether the most recent check succeeded or failed.
+        last_hour_success_rate:
+          type: string
+          description: Aggregate success rate over the last hour as a percentage.
+        last_known_status:
+          type: string
+          description: The raw status string from the most recent check (e.g. "online", "offline").
+        last_check_success_rate:
+          type: string
+          description: Success rate of the most recent individual check as a percentage.
+    BankCodesResponse:
+      type: object
+      properties:
+        bank_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankCode'
+    SupportedIdType:
+      type: object
+      required:
+      - country
+      - type
+      - label
+      - regex
+      properties:
+        bank_code:
+          type: string
+          description: 'Bank code required for this ID type. Only present for ID types that are
+
+            bank-specific (e.g. `BANK_ACCOUNT`).
+
+            '
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+        label:
+          type: string
+          description: Human-readable label for the ID type.
+        regex:
+          type: string
+          description: 'Regular expression pattern (without delimiters) that the ID number must
+
+            match for this ID type.
+
+            '
+        required_fields:
+          type: array
+          items:
+            type: string
+          description: 'List of field names that must be provided when submitting a verification
+
+            request for this ID type (e.g. `first_name`, `last_name`, `dob`).
+
+            '
+        type:
+          type: string
+          description: Machine-readable ID type code.
+    IdStatusErrorResponse:
+      type: object
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+        status:
+          type: string
+          description: HTTP status text (e.g. "Bad Request", "Unauthorized").
+  securitySchemes:
+    SmileIDToken:
+      type: apiKey
+      in: header
+      name: SmileID-Token
+      description: JWT token obtained from `POST /v3/token`.

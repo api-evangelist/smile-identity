@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: Smile ID V3 Authentication Verification Status API
+  version: 1.0.0
+  description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
+  contact:
+    name: Smile ID Support
+    url: https://docs.usesmileid.com/
+  x-logo:
+    url: https://smileidentity.com
+servers:
+- url: https://api.smileidentity.com
+  description: Production
+- url: https://api.sandbox.smileidentity.com
+  description: Sandbox
+security:
+- SmileIDToken: []
+tags:
+- name: Verification Status
+paths:
+  /v3/status/{jobId}:
+    get:
+      operationId: getVerificationStatus
+      tags:
+      - Verification Status
+      summary: Get verification status
+      description: Retrieves the current status of a previously submitted verification. Returns the latest state from the verification lifecycle (processing, clear, block, attention, error).
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        description: TypeID format verification identifier with 'job_' prefix.
+        schema:
+          type: string
+          pattern: ^job_[0-9a-hjkmnp-tv-z]{26}$
+      responses:
+        '200':
+          description: Verification has reached a terminal state (clear, block, attention, or error).
+          headers:
+            api_version:
+              $ref: '#/components/headers/ApiVersion'
+            job_id:
+              $ref: '#/components/headers/JobId'
+            user_id:
+              $ref: '#/components/headers/UserId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+        '202':
+          description: Verification is still processing.
+          headers:
+            api_version:
+              $ref: '#/components/headers/ApiVersion'
+            job_id:
+              $ref: '#/components/headers/JobId'
+            user_id:
+              $ref: '#/components/headers/UserId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+        '400':
+          description: Bad Request — invalid jobId format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized — invalid or missing authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden — IP not in allowlist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found — verification does not exist or does not belong to this partner.
+          headers:
+            api_version:
+              $ref: '#/components/headers/ApiVersion'
+            job_id:
+              $ref: '#/components/headers/JobId'
+            user_id:
+              $ref: '#/components/headers/UserId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    JobStatusResponse:
+      type: object
+      required:
+      - status
+      - job_id
+      - user_id
+      - message
+      - created_at
+      properties:
+        status:
+          type: string
+          description: Verification status. Terminal states (clear, block, attention, error) are returned with HTTP 200; processing is returned with HTTP 202; not_found is returned with HTTP 404.
+          enum:
+          - clear
+          - block
+          - attention
+          - error
+          - processing
+          - not_found
+        job_id:
+          type: string
+          description: TypeID format verification identifier.
+        user_id:
+          type: string
+          description: User ID associated with the verification.
+        message:
+          type: string
+          description: Human-readable status message.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp the status response was generated (ISO 8601).
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+  securitySchemes:
+    SmileIDToken:
+      type: apiKey
+      in: header
+      name: SmileID-Token
+      description: JWT token obtained from `POST /v3/token`.

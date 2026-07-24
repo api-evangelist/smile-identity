@@ -1,0 +1,256 @@
+openapi: 3.0.3
+info:
+  title: Smile ID V3 Authentication Biometric Authentication API
+  version: 1.0.0
+  description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
+  contact:
+    name: Smile ID Support
+    url: https://docs.usesmileid.com/
+  x-logo:
+    url: https://smileidentity.com
+servers:
+- url: https://api.smileidentity.com
+  description: Production
+- url: https://api.sandbox.smileidentity.com
+  description: Sandbox
+security:
+- SmileIDToken: []
+tags:
+- name: Biometric Authentication
+paths:
+  /v3/authentication:
+    post:
+      summary: Submit biometric authentication
+      operationId: v3BiometricAuthentication
+      tags:
+      - Biometric Authentication
+      description: 'Authenticates a user by comparing a submitted selfie against their enrolled image. The selfie and liveness images are uploaded, validated at entry, then queued for async ML processing (passive liveness, active liveness, face matching). Results are delivered via callback URL.
+
+        Supports `use_enrolled_image: true` to skip selfie/liveness upload and re-use the enrolled image for the comparison (useful for server-side re-verification).'
+      parameters:
+      - name: SmileID-Source-SDK
+        in: header
+        required: false
+        description: Source SDK identifier.
+        schema:
+          type: string
+      - name: SmileID-Source-SDK-Version
+        in: header
+        required: false
+        description: Source SDK version.
+        schema:
+          type: string
+      - name: SmileID-Timestamp
+        in: header
+        required: false
+        description: ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.
+        schema:
+          type: string
+          format: date-time
+      - name: SmileID-Request-Signature
+        in: header
+        required: false
+        description: HMAC signature of the raw HTTP request body.
+        schema:
+          type: string
+      - name: User-ID
+        in: header
+        required: false
+        description: Partner-provided user identifier override.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BiometricAuthenticationRequest'
+            encoding:
+              selfie_image:
+                contentType: image/jpeg
+              liveness_images:
+                contentType: image/jpeg
+      responses:
+        '202':
+          description: Accepted — job queued for async processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptedResponse'
+        '400':
+          description: Bad Request — validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized — invalid or missing authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '402':
+          description: Payment Required — insufficient wallet balance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden — partner not authorized for this product or IP.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Unsupported Media Type — request must be multipart/form-data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    Consent:
+      type: object
+      required:
+      - granted
+      - granted_at
+      - notice_language
+      - notice_privacy_policy_url
+      properties:
+        granted:
+          type: boolean
+          enum:
+          - true
+        granted_at:
+          type: string
+          format: date-time
+        notice_language:
+          type: string
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+        notice_privacy_policy_url:
+          type: string
+          format: uri
+    AcceptedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - Accepted
+        message:
+          type: string
+        job_id:
+          type: string
+        user_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+    BiometricAuthenticationRequest:
+      type: object
+      required:
+      - user_id
+      - consent
+      - user_details
+      properties:
+        user_id:
+          type: string
+          description: The enrolled user's identifier. Must match an existing enrollee.
+        selfie_image:
+          type: string
+          format: binary
+          description: JPEG selfie image for authentication. Required unless use_enrolled_image is true.
+        liveness_images:
+          type: array
+          minItems: 6
+          maxItems: 8
+          items:
+            type: string
+            format: binary
+          description: Array of JPEG liveness images. Required unless use_enrolled_image is true.
+        consent:
+          $ref: '#/components/schemas/Consent'
+        user_details:
+          type: object
+          required:
+          - given_names
+          - last_name
+          description: Consumer-stated PII fields for the user. Either email or phone_number must be provided.
+          properties:
+            given_names:
+              type: string
+              minLength: 1
+            last_name:
+              type: string
+              minLength: 1
+            email:
+              type: string
+              format: email
+              nullable: true
+              description: At least one of email or phone_number is required.
+            phone_number:
+              type: string
+              pattern: ^\+[1-9]\d{6,14}$
+              nullable: true
+              description: Phone number in E.164 format. At least one of email or phone_number is required.
+        use_enrolled_image:
+          type: boolean
+          default: false
+          description: If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.
+        callback_url:
+          type: string
+          format: uri
+          description: URL to receive the async result callback.
+        sandbox_result:
+          type: number
+          description: Force a specific result code in sandbox mode.
+        partner_params:
+          type: object
+          additionalProperties:
+            type: string
+        metadata:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - value
+            properties:
+              name:
+                type: string
+                maxLength: 100
+              value:
+                type: string
+                maxLength: 1000
+  securitySchemes:
+    SmileIDToken:
+      type: apiKey
+      in: header
+      name: SmileID-Token
+      description: JWT token obtained from `POST /v3/token`.

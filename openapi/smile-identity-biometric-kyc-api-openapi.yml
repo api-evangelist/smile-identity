@@ -1,0 +1,279 @@
+openapi: 3.0.3
+info:
+  title: Smile ID V3 Authentication Biometric KYC API
+  version: 1.0.0
+  description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
+  contact:
+    name: Smile ID Support
+    url: https://docs.usesmileid.com/
+  x-logo:
+    url: https://smileidentity.com
+servers:
+- url: https://api.smileidentity.com
+  description: Production
+- url: https://api.sandbox.smileidentity.com
+  description: Sandbox
+security:
+- SmileIDToken: []
+tags:
+- name: Biometric KYC
+paths:
+  /v3/biometric_kyc:
+    post:
+      summary: Submit Biometric KYC verification
+      operationId: v3BiometricKycEntry
+      tags:
+      - Biometric KYC
+      description: Combines biometric selfie verification with KYC identity checks against the relevant ID authority. The selfie and liveness images are uploaded alongside identity details (country, id_type, id_number), validated at entry, then processed asynchronously. Results are delivered via callback URL.
+      parameters:
+      - name: SmileID-Partner-ID
+        in: header
+        required: true
+        description: Partner identifier (numeric, 3+ digits).
+        schema:
+          type: string
+          pattern: ^\d{3,}$
+      - name: SmileID-Source-SDK
+        in: header
+        required: false
+        description: Source SDK identifier.
+        schema:
+          type: string
+      - name: SmileID-Source-SDK-Version
+        in: header
+        required: false
+        description: Source SDK version.
+        schema:
+          type: string
+      - name: SmileID-Timestamp
+        in: header
+        required: false
+        description: ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.
+        schema:
+          type: string
+          format: date-time
+      - name: SmileID-Request-Signature
+        in: header
+        required: false
+        description: HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.
+        schema:
+          type: string
+      - name: User-ID
+        in: header
+        required: false
+        description: Partner-provided user identifier. If omitted, a TypeID is generated automatically.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BiometricKycRequest'
+            encoding:
+              selfie_image:
+                contentType: image/jpeg
+              liveness_images:
+                contentType: image/jpeg
+      responses:
+        '202':
+          description: Accepted — verification submitted for async processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptedResponse'
+        '400':
+          description: Bad Request — validation error in request body or headers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized — invalid or missing authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '402':
+          description: Payment Required — insufficient wallet balance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden — partner not authorized for this product, ID type, or IP.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Content Too Large — an uploaded file exceeds the size limit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Unsupported Media Type — request must be multipart/form-data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests — rate limit exceeded for this ID number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    Consent:
+      type: object
+      required:
+      - granted
+      - granted_at
+      - notice_language
+      - notice_privacy_policy_url
+      properties:
+        granted:
+          type: boolean
+          enum:
+          - true
+        granted_at:
+          type: string
+          format: date-time
+        notice_language:
+          type: string
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+        notice_privacy_policy_url:
+          type: string
+          format: uri
+    AcceptedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - Accepted
+        message:
+          type: string
+        job_id:
+          type: string
+        user_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    BiometricKycRequest:
+      type: object
+      required:
+      - selfie_image
+      - liveness_images
+      - consent
+      - country
+      - id_type
+      - id_number
+      - user_details
+      properties:
+        selfie_image:
+          type: string
+          format: binary
+          description: JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.
+        liveness_images:
+          type: array
+          minItems: 6
+          maxItems: 8
+          items:
+            type: string
+            format: binary
+          description: Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.
+        consent:
+          $ref: '#/components/schemas/Consent'
+        country:
+          type: string
+          minLength: 2
+          maxLength: 2
+          description: ISO 3166-1 alpha-2 country code (uppercase).
+        id_type:
+          type: string
+          description: ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).
+        id_number:
+          type: string
+          description: ID document number. Must match the regex format for the country/id_type.
+        user_details:
+          type: object
+          required:
+          - given_names
+          - last_name
+          description: Consumer-stated PII fields for the user. Either email or phone_number must be provided.
+          properties:
+            given_names:
+              type: string
+              minLength: 1
+              description: Given name(s) / first name of the individual.
+            last_name:
+              type: string
+              minLength: 1
+              description: Last name / surname of the individual.
+            email:
+              type: string
+              format: email
+              nullable: true
+              description: Email address of the individual. At least one of email or phone_number is required.
+            phone_number:
+              type: string
+              pattern: ^\+[1-9]\d{6,14}$
+              nullable: true
+              description: Phone number in E.164 format (must start with +). At least one of email or phone_number is required.
+        callback_url:
+          type: string
+          format: uri
+          description: URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.
+        sandbox_result:
+          type: number
+          description: Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.
+        partner_params:
+          type: object
+          additionalProperties:
+            type: string
+          description: Arbitrary key-value metadata for partner reference.
+        metadata:
+          type: array
+          description: Additional metadata entries (e.g., SDK telemetry, device info).
+          items:
+            type: object
+            required:
+            - name
+            - value
+            properties:
+              name:
+                type: string
+                maxLength: 100
+              value:
+                type: string
+                maxLength: 1000
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+  securitySchemes:
+    SmileIDToken:
+      type: apiKey
+      in: header
+      name: SmileID-Token
+      description: JWT token obtained from `POST /v3/token`.
