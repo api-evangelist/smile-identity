@@ -1,0 +1,32 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.usesmileid.com/developer-resources/sdks/web
+docs: https://docs.usesmileid.com/developer-resources/sdks/web/web-components/setup
+summary: >-
+  Smile ID ships framework-agnostic client-side UI components (standard custom
+  elements) for building browser KYC flows, plus a hosted Web SDK. Distinct from
+  the server-side SDKs in packages/.
+families:
+- family: Web Components (v12)
+  type: custom-elements
+  loader_npm: "@smileid/web-sdk"
+  loader_cdn: https://cdn.usesmileid.com/js/v12/smart-camera-web.js
+  module_system: ESM (npm) / IIFE bundle (CDN)
+  elements:
+  - tag: smileid-consent
+    purpose: Consent capture (region-aware notice + checkbox), emits smileid-consent.granted / .denied
+  - tag: smileid-user-details
+    purpose: Collect given_names, last_name, email?, phone_number? (phone normalized to E.164), emits smileid-user-details.submitted
+  - tag: smart-camera-web
+    purpose: Selfie + liveness capture, emits smart-camera-web.publish with captured images
+  events_dispatched_on: window
+  frameworks: React 19+, Vue, Svelte, Angular (native custom-element support)
+  submits_to: POST /v3/biometric_kyc
+- family: Hosted Web SDK (v12)
+  type: hosted-flow
+  purpose: Single script-tag drop-in that runs the full Biometric KYC flow and submits to the V3 API
+  docs: https://docs.usesmileid.com/developer-resources/sdks/web/web-sdk
+- family: Legacy smart-camera-web
+  type: custom-element
+  loader_npm: "@smile_identity/smart-camera-web"
+  purpose: Earlier standalone embeddable camera web component

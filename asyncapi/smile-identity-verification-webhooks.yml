@@ -1,0 +1,41 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks
+type: Webhooks
+spec_type: Webhooks
+docs: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks
+summary: >-
+  Smile ID delivers asynchronous verification results as webhooks (callbacks) to
+  a partner-configured callback_url. Every verification submission returns HTTP
+  202 Accepted synchronously, then the authoritative verdict is POSTed to the
+  callback URL when processing completes. Callback URLs are configured per
+  environment in the Dashboard and must be allow-listed.
+delivery:
+  transport: HTTP POST to callback_url
+  configuration: Per-environment callback URLs set in the Dashboard (or callback_url per request)
+  security:
+    outgoing_signature: Requests are signed; verify the outgoing signature + ISO timestamp to confirm origin
+  allow_list: callback_url must be on the partner's allowed callback domains
+webhook_types:
+- event: enhanced_kyc
+  docs: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/enhanced-kyc
+- event: biometric_kyc
+  docs: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/biometric-kyc
+- event: smartselfie_registration
+  docs: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/smartselfie-registration
+- event: smartselfie_authentication
+  docs: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/smartselfie-authentication
+- event: smartselfie_compare
+  docs: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/smartselfie-compare
+- event: document_verification
+  docs: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/document-verification
+- event: enhanced_document_verification
+  docs: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/enhanced-document-verification
+payload:
+  common_fields: [status, message, job_id, user_id]
+  result_statuses: [clear, block, attention, error]
+  error_reasons_ref: errors/smile-identity-problem-types.yml
+operations:
+  resend: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/receive-webhooks/resend-webhook
+  replay_api: POST /v3/replay/{job_id}  # openapi/smile-identity-v3-openapi.json#replayCallback
+  configure_server: https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/receive-webhooks/configure-your-webhook-server

@@ -1,0 +1,61 @@
+generated: '2026-07-21'
+method: searched
+source: https://github.com/smileidentity + npm/PyPI/RubyGems/Maven Central registries
+packages:
+- language: javascript
+  registry: npm
+  name: smile-identity-core
+  url: https://www.npmjs.com/package/smile-identity-core
+  install: npm install smile-identity-core
+  repo: https://github.com/smileidentity/smile-identity-core-js
+  official: true
+  notes: Official server-to-server JavaScript/TypeScript library (WebApi, IDApi, Signature, Utilities).
+- language: javascript
+  registry: npm
+  name: "@smileid/web-sdk"
+  url: https://www.npmjs.com/package/@smileid/web-sdk
+  install: npm install @smileid/web-sdk
+  official: true
+  notes: v12 web SDK / framework-agnostic web components (consent, user-details, smart-camera-web).
+- language: javascript
+  registry: npm
+  name: "@smile_identity/smart-camera-web"
+  url: https://www.npmjs.com/package/@smile_identity/smart-camera-web
+  install: npm install @smile_identity/smart-camera-web
+  official: true
+  notes: Legacy embeddable smart camera web component.
+- language: python
+  registry: pypi
+  name: smile-id-core
+  url: https://pypi.org/project/smile-id-core/
+  install: pip install smile-id-core
+  repo: https://github.com/smileidentity/smile-identity-core-python
+  official: true
+  notes: Official Python 3 server-to-server library.
+- language: ruby
+  registry: rubygems
+  name: smile-identity-core
+  url: https://rubygems.org/gems/smile-identity-core
+  install: gem install smile-identity-core
+  repo: https://github.com/smileidentity/smile-identity-core-ruby
+  official: true
+  notes: Official Ruby gem.
+- language: java
+  registry: maven
+  name: com.smileidentity:smile-identity-core
+  url: https://mvnrepository.com/artifact/com.smileidentity/smile-identity-core
+  install: "implementation 'com.smileidentity:smile-identity-core'"
+  repo: https://github.com/smileidentity/smile-identity-core-java
+  official: true
+  notes: Official Java server-to-server library.
+- language: swift
+  registry: github
+  name: react-native-v11
+  url: https://github.com/smileidentity/react-native-v11
+  official: true
+  notes: Official React Native SDK (v11); v12 mobile SDKs cover Android, iOS, Flutter, React Native/Expo.
+mobile_sdks:
+- Android (v12)
+- iOS (v12)
+- Flutter (v12)
+- React Native / Expo (v12)

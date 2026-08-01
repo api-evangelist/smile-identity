@@ -1,0 +1,15 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.usesmileid.com/developer-resources/overview/changelog
+docs: https://docs.usesmileid.com/developer-resources/overview/changelog
+api_changes: https://docs.usesmileid.com/developer-resources/api/api-changes
+scheme: uri-path versions (v3 API; v12 SDKs)
+current_version: v3
+entries: []
+notes: >-
+  Smile ID publishes a Changelog and an API Changes page plus dated per-product
+  migration guides (Enhanced KYC v2->v3; Biometric KYC / Document Verification /
+  Enhanced Document Verification / SmartSelfie mobile v10/v11->v12; Biometric KYC
+  web v11->v12). At capture time the hosted Changelog page carried no structured
+  dated entries to transcribe; the migration guides are the substantive version
+  history. See lifecycle/smile-identity-lifecycle.yml.

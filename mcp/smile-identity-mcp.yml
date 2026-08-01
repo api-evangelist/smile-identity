@@ -1,0 +1,57 @@
+generated: '2026-07-21'
+method: derived
+status: candidate
+source: openapi/smile-identity-v3-openapi.json
+notes: >-
+  No official hosted/remote Smile ID MCP server was found (docs, npm
+  @modelcontextprotocol, MCP registries). The tool list below is a CANDIDATE
+  derived one-to-one from the V3 OpenAPI operations, for building an MCP wrapper.
+server:
+  name: smile-identity
+  transport: http
+tools:
+- name: get_v3_token
+  description: Mint a short-lived JWT access token from partner ID + API key.
+  source_operation: openapi/smile-identity-v3-openapi.json#getV3Token
+- name: submit_enhanced_kyc
+  description: Perform an Enhanced KYC verification against an ID authority.
+  source_operation: openapi/smile-identity-v3-openapi.json#submitEnhancedKyc
+- name: submit_biometric_kyc
+  description: Submit a Biometric KYC verification (selfie + liveness + ID details).
+  source_operation: openapi/smile-identity-v3-openapi.json#v3BiometricKycEntry
+- name: submit_document_verification
+  description: Perform a Document Verification.
+  source_operation: openapi/smile-identity-v3-openapi.json#v3DocumentVerificationEntry
+- name: submit_enhanced_document_verification
+  description: Perform an Enhanced Document Verification.
+  source_operation: openapi/smile-identity-v3-openapi.json#v3EnhancedDocumentVerificationEntry
+- name: enroll_biometrics
+  description: Enroll a user's biometrics (SmartSelfie Registration).
+  source_operation: openapi/smile-identity-v3-openapi.json#v3BiometricEnrollment
+- name: authenticate_biometrics
+  description: Authenticate a user's biometrics (SmartSelfie Authentication).
+  source_operation: openapi/smile-identity-v3-openapi.json#v3BiometricAuthentication
+- name: compare_selfie
+  description: Compare a selfie to a reference image (SmartSelfie Compare).
+  source_operation: openapi/smile-identity-v3-openapi.json#v3SmartSelfieCompare
+- name: get_bank_codes
+  description: List supported bank codes.
+  source_operation: openapi/smile-identity-v3-openapi.json#getBankCodes
+- name: get_supported_id_types
+  description: List supported ID types.
+  source_operation: openapi/smile-identity-v3-openapi.json#getSupportedIdTypes
+- name: get_id_status
+  description: Check ID availability/status.
+  source_operation: openapi/smile-identity-v3-openapi.json#getIdStatus
+- name: get_supported_documents
+  description: List supported documents.
+  source_operation: openapi/smile-identity-v3-openapi.json#getSupportedDocuments
+- name: report_user_fraud
+  description: Flag or unflag a user as fraudulent.
+  source_operation: openapi/smile-identity-v3-openapi.json#reportUserFraud
+- name: replay_callback
+  description: Replay/resend a verification webhook for a job.
+  source_operation: openapi/smile-identity-v3-openapi.json#replayCallback
+- name: get_verification_status
+  description: Retrieve a verification result by job id.
+  source_operation: openapi/smile-identity-v3-openapi.json#getVerificationStatus

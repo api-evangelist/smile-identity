@@ -1,0 +1,88 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.usesmileid.com/api-reference/errors
+docs: https://docs.usesmileid.com/api-reference/errors
+format: custom
+envelope:
+  shape: '{ "status": "<HTTP status text or result status>", "message": "<human-readable description>" }'
+  schema_ref: openapi/smile-identity-v3-openapi.json#/components/schemas/ErrorResponse
+  note: >-
+    Not RFC 9457. Errors arrive on two surfaces: synchronous HTTP responses
+    (validation/auth/authorization failures before the job is queued) and
+    asynchronous webhook errors delivered to callback_url after HTTP 202.
+api_response_errors:
+- status: 400
+  title: Bad Request
+  message: "Required field '<field>' is missing or invalid."
+  remediation: Include all required fields per the endpoint reference.
+- status: 400
+  message: Either email or phone_number is required.
+  remediation: Provide at least one of email or phone_number in the request body.
+- status: 400
+  message: Invalid ID number format for the specified country and ID type.
+  remediation: Check the ID number format for the country/id_type; see Supported ID Types.
+- status: 400
+  message: "Header '<header_name>' is required."
+  remediation: Include the required header.
+- status: 401
+  title: Unauthorized
+  message: Invalid authentication credentials.
+  remediation: Verify credentials; regenerate a token from /v3/token; confirm correct environment.
+- status: 402
+  title: Payment Required
+  message: Insufficient wallet balance.
+  remediation: Top up the Smile ID wallet in the Dashboard.
+- status: 403
+  title: Forbidden
+  message: Product not enabled for this partner.
+  remediation: Contact support or enable the product in the Dashboard.
+- status: 403
+  message: ID type not enabled for this partner.
+  remediation: Contact support to enable the ID type.
+- status: 403
+  message: Production access is not enabled.
+  remediation: Request production access via the Dashboard.
+- status: 403
+  message: Callback url not allowed.
+  remediation: Use an allow-listed callback url.
+- status: 403
+  message: IP address not allowed.
+  remediation: Send from an allow-listed IP address.
+- status: 403
+  message: SDK version not allowed.
+  remediation: Update the SDK to a supported version.
+- status: 413
+  title: Content Too Large
+  message: The request payload exceeds the maximum allowed size of 4.5MB.
+  remediation: Compress/resize images to keep the request under 4.5 MB.
+- status: 415
+  title: Unsupported Media Type
+  message: 'Unsupported Media Type. Required Content-Type is multipart/form-data'
+  remediation: Set Content-Type to multipart/form-data.
+- status: 429
+  title: Too Many Requests
+  message: Rate limit exceeded. Please try again later.
+  remediation: Back off and retry with exponential backoff.
+- status: 500
+  title: Internal Server Error
+  message: An unexpected error occurred. Please try again or contact support.
+  remediation: Retry; if persistent, contact support with the job_id.
+webhook_errors:
+- reason: service_unavailable
+  message: 'Error: external service unavailable.'
+  description: External identity data source temporarily unavailable; retry after a delay.
+- reason: internal_error
+  message: 'Error: verification could not be completed at this time.'
+  description: Unexpected internal error; retry, else contact support with job_id.
+- reason: image_unavailable_or_invalid
+  message: 'Error: <image_type_list> image(s) are unusable.'
+  description: Submitted image(s) could not be processed; retry with valid captures.
+- reason: content_policy_violated
+  message: 'Error: image(s) are unusable.'
+  description: Image contains inappropriate content and could not be processed.
+- reason: document_unclassifiable
+  message: 'Error: document could not be classified.'
+  description: Document could not be classified (Document / Enhanced Document Verification).
+- reason: invalid_id_number
+  message: 'Verification failed: invalid id number'
+  description: ID number on the document is invalid (Enhanced Document Verification).

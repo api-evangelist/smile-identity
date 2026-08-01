@@ -1,7 +1,16 @@
 aid: smile-identity
 name: Smile Identity
-description: Smile Identity is a company surfaced as a portfolio company of 500-global and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Smile Identity (Smile ID) is Africa's leading digital identity verification,
+  fraud detection, AML and KYC/KYB compliance platform. Its V3 REST API and v12
+  mobile/web SDKs let businesses onboard and authenticate users across all 54
+  African countries and beyond, covering thousands of ID types and documents.
+  Products include Biometric KYC, Document Verification, Enhanced Document
+  Verification, Basic and Enhanced KYC, Business Verification (KYB), SmartSelfie
+  registration/authentication/compare, phone and address verification, and
+  AML monitoring. Verifications run against government and institutional data
+  sources, with passive/active liveness, and results delivered synchronously
+  and via asynchronous callback webhooks.
 url: https://raw.githubusercontent.com/api-evangelist/smile-identity/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -9,17 +18,255 @@ x-backed-by:
 - 500-global
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://cdn.prod.website-files.com/69cecfcd51ce55fce000c092/6a198a55c9d40279f94b33a4_Smile-Favicon.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
-apis: []
+- Identity Verification
+- KYC
+- KYB
+- Biometrics
+- Liveness Detection
+- Document Verification
+- AML
+- Fraud Prevention
+- Compliance
+- Onboarding
+- Africa
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: smile-identity:smile-identity-authentication-api
+  name: Smile Identity Authentication API
+  description: The Authentication API from Smile Identity — 1 operation(s) for authentication.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-biometric-authentication-api
+  name: Smile Identity Biometric Authentication API
+  description: >-
+    The Biometric Authentication API from Smile Identity — 1 operation(s) for biometric authentication.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Biometric Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-biometric-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-biometric-enrollment-api
+  name: Smile Identity Biometric Enrollment API
+  description: >-
+    The Biometric Enrollment API from Smile Identity — 1 operation(s) for biometric enrollment.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Biometric Enrollment
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-biometric-enrollment-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-biometric-kyc-api
+  name: Smile Identity Biometric KYC API
+  description: The Biometric KYC API from Smile Identity — 1 operation(s) for biometric kyc.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Biometric KYC
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-biometric-kyc-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-callback-replay-api
+  name: Smile Identity Callback Replay API
+  description: The Callback Replay API from Smile Identity — 1 operation(s) for callback replay.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Callback Replay
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-callback-replay-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-document-verification-api
+  name: Smile Identity Document Verification API
+  description: >-
+    The Document Verification API from Smile Identity — 1 operation(s) for document verification.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Document Verification
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-document-verification-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-enhanced-document-verification-api
+  name: Smile Identity Enhanced Document Verification API
+  description: >-
+    The Enhanced Document Verification API from Smile Identity — 1 operation(s) for enhanced document
+    verification.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Enhanced Document Verification
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-enhanced-document-verification-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-enhanced-kyc-api
+  name: Smile Identity Enhanced KYC API
+  description: The Enhanced KYC API from Smile Identity — 1 operation(s) for enhanced kyc.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Enhanced KYC
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-enhanced-kyc-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-services-api
+  name: Smile Identity Services API
+  description: The Services API from Smile Identity — 4 operation(s) for services.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-services-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-smart-selfie-compare-api
+  name: Smile Identity Smart Selfie Compare API
+  description: >-
+    The Smart Selfie Compare API from Smile Identity — 1 operation(s) for smart selfie compare.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Smart Selfie Compare
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-smart-selfie-compare-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-users-api
+  name: Smile Identity Users API
+  description: The Users API from Smile Identity — 1 operation(s) for users.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
+- aid: smile-identity:smile-identity-verification-status-api
+  name: Smile Identity Verification Status API
+  description: >-
+    The Verification Status API from Smile Identity — 1 operation(s) for verification status.
+  humanURL: https://docs.usesmileid.com/api-reference
+  baseURL: https://api.smileidentity.com
+  tags:
+  - Verification Status
+  properties:
+  - type: OpenAPI
+    url: openapi/smile-identity-verification-status-api-openapi.yml
+  - type: Documentation
+    url: https://docs.usesmileid.com/api-reference
 common:
+- type: DomainSecurity
+  url: security/smile-identity-domain-security.yml
 - type: Website
-  url: https://smileidentity.com
+  url: https://usesmileid.com
+- type: DeveloperPortal
+  url: https://portal.usesmileid.com
+- type: Documentation
+  url: https://docs.usesmileid.com
+- type: APIReference
+  url: https://docs.usesmileid.com/api-reference
+- type: GettingStarted
+  url: https://docs.usesmileid.com/getting-started/run-your-first-test-job
+- type: GitHubOrganization
+  url: https://github.com/smileidentity
+- type: Blog
+  url: https://usesmileid.com/blog
+- type: SignUp
+  url: https://portal.usesmileid.com
+- type: Pricing
+  url: https://usesmileid.com/pricing
+- type: PrivacyPolicy
+  url: https://usesmileid.com/legal/privacy-policy
+- type: TermsOfService
+  url: https://usesmileid.com/legal/terms-and-conditions
+- type: Postman
+  url: https://docs.usesmileid.com/integration-options/rest-api/postman-collections
+- type: ChangeLog
+  url: https://docs.usesmileid.com/developer-resources/overview/changelog
+- type: LLMsTxt
+  url: llms/smile-identity-llms.txt
+- type: Packages
+  url: packages/smile-identity-packages.yml
+- type: SDKs
+  url: packages/smile-identity-packages.yml
+- type: Authentication
+  url: authentication/smile-identity-authentication.yml
+- type: ErrorCatalog
+  url: errors/smile-identity-problem-types.yml
+- type: Conventions
+  url: conventions/smile-identity-conventions.yml
+- type: Lifecycle
+  url: lifecycle/smile-identity-lifecycle.yml
+- type: Webhooks
+  url: asyncapi/smile-identity-verification-webhooks.yml
+- type: Conformance
+  url: conformance/smile-identity-conformance.yml
+- type: Sandbox
+  url: sandbox/smile-identity-sandbox.yml
+- type: Components
+  url: components/smile-identity-components.yml
+- type: DataModel
+  url: data-model/smile-identity-data-model.yml
+- type: ChangeLog
+  url: changelog/smile-identity-changelog.yml
+- type: MCPServer
+  url: mcp/smile-identity-mcp.yml
+- type: AgenticAccess
+  url: agentic-access/smile-identity-agentic-access.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 23
+  pass: local-v1

@@ -1,0 +1,34 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.usesmileid.com/developer-resources
+versioning:
+  scheme: uri-path
+  current: v3
+  generations:
+    - v3 (current REST API + v12 SDKs)
+    - v1/v2 (legacy server-to-server signature API; still supported by smile-identity-core libraries)
+  docs: https://docs.usesmileid.com/api-reference
+api_changes:
+  url: https://docs.usesmileid.com/developer-resources/api/api-changes
+changelog:
+  url: https://docs.usesmileid.com/developer-resources/overview/changelog
+migration_guides:
+  url: https://docs.usesmileid.com/guides/migration-guides
+  examples:
+    - Enhanced KYC v2 to v3
+    - Biometric KYC mobile v10/v11 to v12
+    - Document Verification mobile v10/v11 to v12
+    - Enhanced Document Verification mobile v10/v11 to v12
+    - SmartSelfie Enrollment/Authentication mobile v10/v11 to v12
+    - Biometric KYC web v11 to v12
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: >-
+    No formal RFC 8594 Sunset/Deprecation header policy found. Version
+    transitions are managed through dated migration guides (v2->v3, v10/v11->v12).
+sla:
+  url: null
+  note: No public uptime SLA / status page located at probe time.
+status_page: null
+deprecated_operations: []

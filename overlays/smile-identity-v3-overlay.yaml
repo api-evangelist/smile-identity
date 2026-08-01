@@ -1,0 +1,28 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Smile ID V3 API
+  version: 1.0.0
+extends: openapi/smile-identity-v3-openapi.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-source: >-
+      Assembled verbatim from per-endpoint OpenAPI fragments published in the
+      Smile ID GitBook API reference (docs.usesmileid.com/api-reference).
+    x-apievangelist-provider: smile-identity
+    x-apievangelist-category: [identity-verification, kyc, biometrics, aml]
+    x-agentic-access-artifact: agentic-access/smile-identity-agentic-access.yml
+    x-authentication-artifact: authentication/smile-identity-authentication.yml
+    x-error-catalog-artifact: errors/smile-identity-problem-types.yml
+    x-conventions-artifact: conventions/smile-identity-conventions.yml
+    x-webhooks-artifact: asyncapi/smile-identity-verification-webhooks.yml
+    x-sandbox-artifact: sandbox/smile-identity-sandbox.yml
+- target: $.info
+  update:
+    x-environments:
+      production: https://api.smileidentity.com
+      sandbox: https://api.sandbox.smileidentity.com
+- target: $.info
+  update:
+    x-consent-required: true
+    x-async-result-delivery: callback_url (HTTP 202 then webhook)

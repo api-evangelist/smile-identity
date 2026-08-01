@@ -1,0 +1,151 @@
+# Smile ID
+
+## Documentation
+
+- [Overview](https://docs.usesmileid.com/readme.md)
+- [ID Coverage](https://docs.usesmileid.com/id-coverage.md)
+- [Verify with ID Number](https://docs.usesmileid.com/id-coverage/verify-with-id-number.md)
+- [Côte d'Ivoire](https://docs.usesmileid.com/id-coverage/verify-with-id-number/cote-divoire.md)
+- [Ghana](https://docs.usesmileid.com/id-coverage/verify-with-id-number/ghana.md)
+- [Kenya](https://docs.usesmileid.com/id-coverage/verify-with-id-number/kenya.md)
+- [Nigeria](https://docs.usesmileid.com/id-coverage/verify-with-id-number/nigeria.md)
+- [South Africa](https://docs.usesmileid.com/id-coverage/verify-with-id-number/south-africa.md)
+- [Uganda](https://docs.usesmileid.com/id-coverage/verify-with-id-number/uganda.md)
+- [Zambia](https://docs.usesmileid.com/id-coverage/verify-with-id-number/zambia.md)
+- [Zimbabwe](https://docs.usesmileid.com/id-coverage/verify-with-id-number/zimbabwe.md)
+- [Verify with Document](https://docs.usesmileid.com/id-coverage/verify-with-document.md)
+- [Africa](https://docs.usesmileid.com/id-coverage/verify-with-document/africa.md)
+- [Asia and the Middle East](https://docs.usesmileid.com/id-coverage/verify-with-document/asia.md)
+- [Europe](https://docs.usesmileid.com/id-coverage/verify-with-document/europe.md)
+- [North America](https://docs.usesmileid.com/id-coverage/verify-with-document/north-america.md)
+- [Oceania](https://docs.usesmileid.com/id-coverage/verify-with-document/oceania.md)
+- [South America](https://docs.usesmileid.com/id-coverage/verify-with-document/south-america.md)
+- [See all Products](https://docs.usesmileid.com/see-all-products.md)
+- [Create an Account](https://docs.usesmileid.com/start-building/create-an-account.md)
+- [Dashboard](https://docs.usesmileid.com/start-building/dashboard.md)
+- [Manage your Team](https://docs.usesmileid.com/start-building/dashboard/manage-your-team.md)
+- [Developer Settings](https://docs.usesmileid.com/start-building/dashboard/developer-settings.md)
+- [Viewing Results of your Verification](https://docs.usesmileid.com/start-building/dashboard/viewing-results-of-your-verification.md)
+- [No Code](https://docs.usesmileid.com/start-building/no-code.md)
+- [Running Verification on the Dashboard](https://docs.usesmileid.com/start-building/no-code/running-verification-on-the-dashboard.md)
+- [Verification Links](https://docs.usesmileid.com/start-building/no-code/verification-links.md)
+- [Onboarding with Biometrics](https://docs.usesmileid.com/products/onboarding-with-biometrics.md)
+- [Biometric KYC](https://docs.usesmileid.com/products/onboarding-with-biometrics/biometric-kyc.md)
+- [Document Verification](https://docs.usesmileid.com/products/onboarding-with-biometrics/document-verification.md)
+- [Enhanced Document Verification](https://docs.usesmileid.com/products/onboarding-with-biometrics/enhanced-document-verification.md)
+- [Onboarding without Biometrics](https://docs.usesmileid.com/products/onboarding-without-biometrics.md)
+- [Basic KYC](https://docs.usesmileid.com/products/onboarding-without-biometrics/basic-kyc.md)
+- [Enhanced KYC](https://docs.usesmileid.com/products/onboarding-without-biometrics/enhanced-kyc.md)
+- [Phone Number Verification](https://docs.usesmileid.com/products/onboarding-without-biometrics/phone-number-verification.md)
+- [Digital Address Verification](https://docs.usesmileid.com/products/onboarding-without-biometrics/digital-address-verification.md)
+- [Onboarding Businesses](https://docs.usesmileid.com/products/onboarding-businesses.md)
+- [Business Verification](https://docs.usesmileid.com/products/onboarding-businesses/business-verification.md)
+- [Biometric Authentication](https://docs.usesmileid.com/products/biometric-authentication.md)
+- [SmartSelfie™ Registration](https://docs.usesmileid.com/products/biometric-authentication/smartselfie-tm-registration.md)
+- [SmartSelfie™ Authentication](https://docs.usesmileid.com/products/biometric-authentication/smartselfie-tm-authentication.md)
+- [SmartSelfie™ Compare](https://docs.usesmileid.com/products/biometric-authentication/smartselfie-tm-compare.md)
+- [Fraud Checks](https://docs.usesmileid.com/products/fraud-checks.md)
+- [AML Monitoring](https://docs.usesmileid.com/products/fraud-checks/aml-monitoring.md)
+- [One Time AML Check](https://docs.usesmileid.com/products/fraud-checks/one-time-aml-check.md)
+- [Smile Secure](https://docs.usesmileid.com/products/fraud-checks/smile-secure.md)
+- [Smile Risk Intelligence](https://docs.usesmileid.com/products/fraud-checks/smile-risk-intelligence.md)
+
+## Developer Resources
+
+- [Security](https://docs.usesmileid.com/developer-resources/overview/readme.md)
+- [Changelog](https://docs.usesmileid.com/developer-resources/overview/changelog.md)
+- [Mobile](https://docs.usesmileid.com/developer-resources/sdks/mobile.md): Embed Smile ID identity verification flows into native and cross-platform mobile apps with the v12 SDKs for Android, iOS, Flutter, and React Native.
+- [Setup](https://docs.usesmileid.com/developer-resources/sdks/mobile/setup.md): Install the Smile ID v12 mobile SDK, register on-device ML providers, and wire up authentication.
+- [Performing a Verification](https://docs.usesmileid.com/developer-resources/sdks/mobile/performing-a-verification.md): Compose a verification flow with the Smile ID v12 SDK by declaring the screens, capture types, and consent your product requires.
+- [Getting Result of a Verification](https://docs.usesmileid.com/developer-resources/sdks/mobile/getting-result-of-a-verification.md): Handle the in-flow onResult callback and the asynchronous callbackUrl webhook to consume Smile ID verification results.
+- [Theming and Customization](https://docs.usesmileid.com/developer-resources/sdks/mobile/theming-and-customization.md): Brand the verification flow with your own colors, fonts, and shapes, and localize every string the SDK renders.
+- [Web](https://docs.usesmileid.com/developer-resources/sdks/web.md): Embed Smile ID identity verification into your web applications with the v12 Web SDKs for the V3 API — a hosted flow or composable web components.
+- [Web Components](https://docs.usesmileid.com/developer-resources/sdks/web/web-components.md): Build your own Biometric KYC flow with the Smile ID v12 web components — framework-agnostic custom elements for consent, user details, and selfie capture.
+- [Setup](https://docs.usesmileid.com/developer-resources/sdks/web/web-components/setup.md): Install the Smile ID v12 web components via npm or the CDN bundle, mount the Biometric KYC elements, and listen to their events.
+- [Submitting Payloads](https://docs.usesmileid.com/developer-resources/sdks/web/web-components/submitting-payloads.md): Assemble the full job payload — consent, user details, identity fields, and captured images — from the Smile ID web components into a multipart POST /v3/biometric\_kyc request.
+- [Theming and Customization](https://docs.usesmileid.com/developer-resources/sdks/web/web-components/theming-and-customization.md): Theme the Smile ID v12 web components with attributes, localize their strings with the localisation module, and handle right-to-left languages.
+- [Web SDK](https://docs.usesmileid.com/developer-resources/sdks/web/web-sdk.md): Add Smile ID Biometric KYC to your website with the hosted v12 Web SDK — a single script tag that runs the full verification flow and submits to the V3 API.
+- [Setup](https://docs.usesmileid.com/developer-resources/sdks/web/web-sdk/setup.md): Load the Smile ID v12 Web SDK script, mint a v3 token on your backend, and initialize the hosted verification flow.
+- [Performing a Verification](https://docs.usesmileid.com/developer-resources/sdks/web/web-sdk/performing-a-verification.md): Run a Biometric KYC verification with the Smile ID v12 Web SDK — screen order, every configuration option, and how pre-supplied data skips screens.
+- [Getting Result of a Verification](https://docs.usesmileid.com/developer-resources/sdks/web/web-sdk/getting-result-of-a-verification.md): Handle the Smile ID v12 Web SDK browser callbacks and consume the authoritative verification verdict from your callback\_url webhook.
+- [Theming and Customization](https://docs.usesmileid.com/developer-resources/sdks/web/web-sdk/theming-and-customization.md): Brand the Smile ID v12 hosted web flow with your color and logo, control attribution, switch capture modes, and localize every string.
+- [Server-Side (Coming Soon)](https://docs.usesmileid.com/developer-resources/sdks/server-side.md): Call the Smile ID V3 API from your backend with the upcoming server-side SDKs.
+- [Setup](https://docs.usesmileid.com/developer-resources/sdks/server-side/setup.md)
+- [Performing a Verification](https://docs.usesmileid.com/developer-resources/sdks/server-side/performing-a-verification.md)
+- [Retrieving a Verification](https://docs.usesmileid.com/developer-resources/sdks/server-side/retrieving-a-verification.md)
+- [API Changes](https://docs.usesmileid.com/developer-resources/api/api-changes.md)
+- [API Keys](https://docs.usesmileid.com/developer-resources/api/api-keys.md)
+- [Testing in Sandbox](https://docs.usesmileid.com/developer-resources/essentials/testing-in-sandbox.md)
+- [Verification Webhooks](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks.md)
+- [Receive Webhooks](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/receive-webhooks.md)
+- [Configure your Webhook Server](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/receive-webhooks/configure-your-webhook-server.md)
+- [Resend Webhook](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/receive-webhooks/resend-webhook.md)
+- [Webhook Types](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types.md)
+- [Enhanced KYC](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/enhanced-kyc.md)
+- [Biometric KYC](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/biometric-kyc.md)
+- [SmartSelfie™ Registration](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/smartselfie-registration.md)
+- [SmartSelfie™ Authentication](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/smartselfie-authentication.md)
+- [SmartSelfie™ Compare](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/smartselfie-compare.md)
+- [Document Verification](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/document-verification.md)
+- [Enhanced Document Verification](https://docs.usesmileid.com/developer-resources/essentials/verification-webhooks/webhook-types/enhanced-document-verification.md)
+- [Sample Projects](https://docs.usesmileid.com/developer-resources/essentials/sample-projects.md)
+- [Demo App](https://docs.usesmileid.com/developer-resources/essentials/sample-projects/demo-app.md)
+
+## API Reference
+
+- [Authentication](https://docs.usesmileid.com/api-reference/authentication.md)
+- [Environments](https://docs.usesmileid.com/api-reference/environments.md)
+- [Errors](https://docs.usesmileid.com/api-reference/errors.md)
+- [Introduction](https://docs.usesmileid.com/api-reference/introduction.md)
+- [Access](https://docs.usesmileid.com/api-reference/set-up/access.md)
+- [Enhanced KYC](https://docs.usesmileid.com/api-reference/products/enhanced-kyc.md)
+- [Perform an Enhanced KYC Verification](https://docs.usesmileid.com/api-reference/products/enhanced-kyc/perform-an-enhanced-kyc-verification.md)
+- [Biometric KYC](https://docs.usesmileid.com/api-reference/products/biometric-kyc.md)
+- [Perform a Biometric KYC Verification](https://docs.usesmileid.com/api-reference/products/biometric-kyc/perform-a-biometric-kyc-verification.md)
+- [Document Verification](https://docs.usesmileid.com/api-reference/products/document-verification.md)
+- [Perform a Document Verification](https://docs.usesmileid.com/api-reference/products/document-verification/perform-a-document-verification.md)
+- [Enhanced Document Verification](https://docs.usesmileid.com/api-reference/products/enhanced-document-verification.md)
+- [Perform an Enhanced Document Verification](https://docs.usesmileid.com/api-reference/products/enhanced-document-verification/perform-an-enhanced-document-verification.md)
+- [SmartSelfie Enrollment](https://docs.usesmileid.com/api-reference/products/smartselfie-enrollment.md)
+- [Enroll a User's Biometrics](https://docs.usesmileid.com/api-reference/products/smartselfie-enrollment/enroll-a-users-biometrics.md)
+- [SmartSelfie Authentication](https://docs.usesmileid.com/api-reference/products/smartselfie-authentication.md)
+- [Authenticate a User's Biometrics](https://docs.usesmileid.com/api-reference/products/smartselfie-authentication/authenticate-a-users-biometrics.md)
+- [SmartSelfie Compare](https://docs.usesmileid.com/api-reference/products/smartselfie-compare.md)
+- [Compare a Selfie to an Image](https://docs.usesmileid.com/api-reference/products/smartselfie-compare/compare-a-selfie-to-an-image.md)
+- [Services](https://docs.usesmileid.com/api-reference/core-resources/services.md)
+- [Bank Codes](https://docs.usesmileid.com/api-reference/core-resources/services/bank-codes.md)
+- [Supported ID Types](https://docs.usesmileid.com/api-reference/core-resources/services/supported-id-types.md)
+- [ID Availability](https://docs.usesmileid.com/api-reference/core-resources/services/id-availability.md)
+- [Supported Documents](https://docs.usesmileid.com/api-reference/core-resources/services/supported-documents.md)
+- [Users](https://docs.usesmileid.com/api-reference/core-resources/users.md)
+- [Setting a User as Fraudulent or Not Fraudulent](https://docs.usesmileid.com/api-reference/core-resources/users/setting-a-user-as-fraudulent-or-not-fraudulent.md)
+- [Replay Webhook](https://docs.usesmileid.com/api-reference/core-resources/replay-webhook.md)
+- [Replay a Verification Webhook](https://docs.usesmileid.com/api-reference/core-resources/replay-webhook/replay-a-verification-webhook.md)
+- [Verification Status](https://docs.usesmileid.com/api-reference/core-resources/verification-status.md)
+- [Retrieve a Verification Result](https://docs.usesmileid.com/api-reference/core-resources/verification-status/retrieve-a-verification-result.md)
+
+## Guides
+
+- [Enhanced KYC Migration Guide v2 to v3](https://docs.usesmileid.com/guides/migration-guides/readme.md)
+- [Biometric KYC Mobile Integration Migration Guide: v10/v11 to v12](https://docs.usesmileid.com/guides/migration-guides/biometric-kyc-mobile-integration-migration-guide-v10-v11-to-v12.md): This guide walks you through migrating a Biometric KYC mobile integration from the v10/v11 Smile ID SDKs to the v12 SDKs (Android, iOS, Flutter, React Native/Expo).
+- [Document Verification Mobile Integration Migration Guide: v10/v11 to v12](https://docs.usesmileid.com/guides/migration-guides/document-verification-mobile-integration-migration-guide-v10-v11-to-v12.md): This guide walks you through migrating a Document Verification mobile integration from the v10/v11 Smile ID SDKs to the v12 SDKs (Android, iOS, Flutter, React Native/Expo).
+- [Enhanced Document Verification Mobile Integration Migration Guide: v10/v11 to v12](https://docs.usesmileid.com/guides/migration-guides/enhanced-document-verification-mobile-integration-migration-guide-v10-v11-to-v12.md): This guide walks you through migrating an Enhanced Document Verification mobile integration from the v10/v11 Smile ID SDKs to the v12 SDKs (Android, iOS, Flutter, React Native/Expo).
+- [SmartSelfie™ Enrollment Mobile Integration Migration Guide: v10/v11 to v12](https://docs.usesmileid.com/guides/migration-guides/smartselfie-tm-enrollment-mobile-integration-migration-guide-v10-v11-to-v12.md): This guide walks you through migrating a SmartSelfie™ Enrollment mobile integration from the v10/v11 Smile ID SDKs to the v12 SDKs (Android, iOS, Flutter, React Native/Expo).
+- [SmartSelfie™ Authentication Mobile Integration Migration Guide: v10/v11 to v12](https://docs.usesmileid.com/guides/migration-guides/smartselfie-tm-authentication-mobile-integration-migration-guide-v10-v11-to-v12.md): This guide walks you through migrating a SmartSelfie™ Authentication mobile integration from the v10/v11 Smile ID SDKs to the v12 SDKs (Android, iOS, Flutter, React Native/Expo).
+- [Biometric KYC Web Integration Migration Guide: v11 to v12](https://docs.usesmileid.com/guides/migration-guides/biometric-kyc-web-integration-migration-guide-v11-to-v12.md): This guide walks you through migrating a Biometric KYC hosted web (embed) integration from the v11 Smile ID Web SDK to v12.
+
+
+---
+
+# Agent Instructions
+This documentation is published with GitBook. GitBook is the documentation platform designed so that both humans and AI agents can read, navigate, and reason over technical content effectively. Learn more at gitbook.com.
+
+## Querying This Documentation
+If you need additional information, you can query the documentation dynamically by asking a question.
+Perform an HTTP GET request on a page URL with the `ask` query parameter:
+```
+GET https://docs.usesmileid.com/readme.md?ask=<question>
+```
+The question should be specific, self-contained, and written in natural language.
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.

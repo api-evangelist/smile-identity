@@ -1,0 +1,41 @@
+{
+  "provider": "smile-identity",
+  "sources": [
+    "smile-identity-authentication-api-openapi.yml",
+    "smile-identity-biometric-authentication-api-openapi.yml",
+    "smile-identity-biometric-enrollment-api-openapi.yml",
+    "smile-identity-biometric-kyc-api-openapi.yml",
+    "smile-identity-callback-replay-api-openapi.yml",
+    "smile-identity-document-verification-api-openapi.yml",
+    "smile-identity-enhanced-document-verification-api-openapi.yml",
+    "smile-identity-enhanced-kyc-api-openapi.yml",
+    "smile-identity-services-api-openapi.yml",
+    "smile-identity-smart-selfie-compare-api-openapi.yml",
+    "smile-identity-users-api-openapi.yml",
+    "smile-identity-verification-status-api-openapi.yml"
+  ],
+  "outputs": [
+    "smile-identity-authentication-api-openapi.yml",
+    "smile-identity-biometric-authentication-api-openapi.yml",
+    "smile-identity-biometric-enrollment-api-openapi.yml",
+    "smile-identity-biometric-kyc-api-openapi.yml",
+    "smile-identity-callback-replay-api-openapi.yml",
+    "smile-identity-document-verification-api-openapi.yml",
+    "smile-identity-enhanced-document-verification-api-openapi.yml",
+    "smile-identity-enhanced-kyc-api-openapi.yml",
+    "smile-identity-services-api-openapi.yml",
+    "smile-identity-smart-selfie-compare-api-openapi.yml",
+    "smile-identity-users-api-openapi.yml",
+    "smile-identity-verification-status-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [
+    "smile-identity-services-api-openapi.yml: dangling $ref: #/components/parameters/CountryFilter",
+    "smile-identity-verification-status-api-openapi.yml: dangling $ref: #/components/headers/ApiVersion",
+    "smile-identity-verification-status-api-openapi.yml: dangling $ref: #/components/headers/JobId",
+    "smile-identity-verification-status-api-openapi.yml: dangling $ref: #/components/headers/UserId"
+  ],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

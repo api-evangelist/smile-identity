@@ -1,0 +1,29 @@
+generated: '2026-07-21'
+method: probed
+source: live probe of provider hosts
+note: >-
+  No real .well-known discovery documents are published. usesmileid.com returns
+  HTTP 200 for every path (Webflow soft-404 serving HTML, not real documents);
+  api.smileidentity.com returns 403 (WAF) for all probes; docs.usesmileid.com
+  returns 404 for .well-known paths. No security.txt, OpenID/OAuth metadata,
+  api-catalog, or ai-plugin.json found. (A real llms.txt IS published at
+  docs.usesmileid.com/llms.txt — captured separately in llms/.)
+hosts:
+- host: https://usesmileid.com
+  documents:
+  - {path: /.well-known/security.txt, status: 200, real: false, reason: soft-404 HTML (Webflow)}
+  - {path: /.well-known/openid-configuration, status: 200, real: false, reason: soft-404 HTML}
+  - {path: /.well-known/oauth-authorization-server, status: 200, real: false, reason: soft-404 HTML}
+  - {path: /.well-known/api-catalog, status: 200, real: false, reason: soft-404 HTML}
+  - {path: /.well-known/ai-plugin.json, status: 200, real: false, reason: soft-404 HTML}
+- host: https://api.smileidentity.com
+  documents:
+  - {path: /.well-known/security.txt, status: 403}
+  - {path: /.well-known/openid-configuration, status: 403}
+  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - {path: /.well-known/api-catalog, status: 403}
+- host: https://docs.usesmileid.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /llms.txt, status: 200, real: true, file: ../llms/smile-identity-llms.txt}

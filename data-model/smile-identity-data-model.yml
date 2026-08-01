@@ -1,0 +1,65 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/smile-identity-v3-openapi.json
+docs: https://docs.usesmileid.com/api-reference
+notes: >-
+  Entity-relationship graph derived from the V3 OpenAPI schemas and id-reference
+  fields (job_id, user_id, partner_id). Identifiers use TypeID format.
+entities:
+- name: Partner
+  key: partner_id
+  id_format: numeric (no leading zeros)
+  description: The Smile ID customer/account; owns API keys, wallet balance and callback allow-list.
+- name: ApiKey
+  belongs_to: Partner
+  description: Environment-scoped root credential used server-side to mint tokens.
+- name: Token
+  key: token
+  id_format: JWT
+  belongs_to: Partner
+  ttl_minutes: 15
+  description: Short-lived JWT minted via /v3/token, sent as SmileID-Token.
+- name: User
+  key: user_id
+  id_format: TypeID (or partner-provided User-ID)
+  belongs_to: Partner
+  description: The individual being verified/enrolled; can be reported fraudulent.
+- name: Job
+  key: job_id
+  id_format: TypeID
+  belongs_to: [Partner, User]
+  description: A single verification/enrollment submission and its result.
+  statuses: [accepted, clear, block, attention, error]
+- name: Consent
+  belongs_to: Job
+  fields: [granted, granted_at, notice_language, notice_privacy_policy_url]
+- name: CallbackWebhook
+  belongs_to: Job
+  description: Async result delivered to callback_url; replayable via /v3/replay/{job_id}.
+relationships:
+- from: Job
+  to: User
+  kind: belongs_to
+  via: user_id
+- from: Job
+  to: Partner
+  kind: belongs_to
+  via: partner_id
+- from: Token
+  to: Partner
+  kind: belongs_to
+  via: partner_id
+- from: Consent
+  to: Job
+  kind: belongs_to
+  via: consent
+- from: CallbackWebhook
+  to: Job
+  kind: belongs_to
+  via: job_id
+- from: User
+  to: Job
+  kind: has_many
+  via: user_id
+id_prefixes:
+  note: job_id and user_id are TypeID-format identifiers (type-prefixed UUIDs) per the AcceptedResponse schema.

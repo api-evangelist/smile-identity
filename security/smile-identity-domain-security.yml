@@ -1,0 +1,34 @@
+generated: '2026-07-21'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: usesmileid.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 10 23:59:59 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: docs.usesmileid.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 15 15:11:34 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.smileidentity.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 19 17:29:57 2026 GMT
+  hsts: null
+domains:
+- domain: usesmileid.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: smileidentity.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

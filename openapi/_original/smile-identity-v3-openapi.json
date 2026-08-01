@@ -1,0 +1,3150 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Smile ID V3 API",
+    "version": "1.0.0",
+    "description": "Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).",
+    "contact": {
+      "name": "Smile ID Support",
+      "url": "https://docs.usesmileid.com/"
+    },
+    "x-logo": {
+      "url": "https://smileidentity.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.smileidentity.com",
+      "description": "Production"
+    },
+    {
+      "url": "https://api.sandbox.smileidentity.com",
+      "description": "Sandbox"
+    }
+  ],
+  "security": [
+    {
+      "SmileIDToken": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "Enhanced KYC"
+    },
+    {
+      "name": "Biometric KYC"
+    },
+    {
+      "name": "Document Verification"
+    },
+    {
+      "name": "Enhanced Document Verification"
+    },
+    {
+      "name": "Biometric Enrollment"
+    },
+    {
+      "name": "Biometric Authentication"
+    },
+    {
+      "name": "Smart Selfie Compare"
+    },
+    {
+      "name": "Services"
+    },
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Callback Replay"
+    },
+    {
+      "name": "Verification Status"
+    }
+  ],
+  "paths": {
+    "/v3/token": {
+      "post": {
+        "operationId": "getV3Token",
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Generate v3 Auth Token",
+        "description": "Issues a short-lived JWT for authenticating subsequent v3 API requests.",
+        "parameters": [
+          {
+            "name": "smileid-partner-id",
+            "in": "header",
+            "required": true,
+            "description": "Your unique partner identifier. Must be numeric with no leading zeros.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "smileid-api-key",
+            "in": "header",
+            "required": true,
+            "description": "Your partner API key for authentication.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Optional parameters to be included in the generated token.",
+          "required": false,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "type": "string",
+                    "description": "Optional partner-provided user identifier."
+                  },
+                  "partner_params": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Key-value metadata for partner reference."
+                  },
+                  "product": {
+                    "type": "string",
+                    "description": "The product or service the token will be used for.",
+                    "enum": [
+                      "aml",
+                      "basic_kyc",
+                      "one_time_aml",
+                      "biometric_kyc",
+                      "address_verification",
+                      "document_verification",
+                      "enhanced_document_verification",
+                      "enhanced_kyc",
+                      "phone_number_verification",
+                      "smart_selfie_authentication",
+                      "smart_selfie_registration",
+                      "smart_selfie_compare"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for authenticating subsequent v3 API requests."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type — request body, if provided, must be multipart/form-data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/enhanced_kyc": {
+      "post": {
+        "operationId": "submitEnhancedKyc",
+        "tags": [
+          "Enhanced KYC"
+        ],
+        "summary": "Submit Enhanced KYC verification",
+        "description": "Allows submission of Enhanced KYC verification requests and processes the verification asynchronously against the relevant ID authority. Results are delivered via callback URL.",
+        "parameters": [
+          {
+            "name": "SmileID-Source-SDK",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK-Version",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK version.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Timestamp",
+            "in": "header",
+            "required": false,
+            "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SmileID-Request-Signature",
+            "in": "header",
+            "required": false,
+            "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-ID",
+            "in": "header",
+            "required": false,
+            "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/EnhancedKycRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted — verification submitted for async processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — validation error in request body or headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required — insufficient wallet balance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — partner not authorized for this product, ID type, or IP.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large — an uploaded file exceeds the size limit.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type — request must be multipart/form-data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded for this ID number.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/biometric_kyc": {
+      "post": {
+        "summary": "Submit Biometric KYC verification",
+        "operationId": "v3BiometricKycEntry",
+        "tags": [
+          "Biometric KYC"
+        ],
+        "description": "Combines biometric selfie verification with KYC identity checks against the relevant ID authority. The selfie and liveness images are uploaded alongside identity details (country, id_type, id_number), validated at entry, then processed asynchronously. Results are delivered via callback URL.",
+        "parameters": [
+          {
+            "name": "SmileID-Partner-ID",
+            "in": "header",
+            "required": true,
+            "description": "Partner identifier (numeric, 3+ digits).",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{3,}$"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK-Version",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK version.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Timestamp",
+            "in": "header",
+            "required": false,
+            "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SmileID-Request-Signature",
+            "in": "header",
+            "required": false,
+            "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-ID",
+            "in": "header",
+            "required": false,
+            "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/BiometricKycRequest"
+              },
+              "encoding": {
+                "selfie_image": {
+                  "contentType": "image/jpeg"
+                },
+                "liveness_images": {
+                  "contentType": "image/jpeg"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted — verification submitted for async processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — validation error in request body or headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required — insufficient wallet balance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — partner not authorized for this product, ID type, or IP.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large — an uploaded file exceeds the size limit.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type — request must be multipart/form-data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded for this ID number.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/document_verification": {
+      "post": {
+        "summary": "Submit Document Verification",
+        "operationId": "v3DocumentVerificationEntry",
+        "tags": [
+          "Document Verification"
+        ],
+        "description": "Verifies a user's identity by comparing a selfie against a document image. The selfie and liveness images are uploaded alongside a document photo (front, and optionally back). The id_type is optional — the document type is auto-classified if not provided. Results are delivered asynchronously via callback URL.",
+        "parameters": [
+          {
+            "name": "SmileID-Partner-ID",
+            "in": "header",
+            "required": true,
+            "description": "Partner identifier (numeric, 3+ digits).",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{3,}$"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK-Version",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK version.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Timestamp",
+            "in": "header",
+            "required": false,
+            "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SmileID-Request-Signature",
+            "in": "header",
+            "required": false,
+            "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-ID",
+            "in": "header",
+            "required": false,
+            "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentVerificationRequest"
+              },
+              "encoding": {
+                "selfie_image": {
+                  "contentType": "image/jpeg"
+                },
+                "liveness_images": {
+                  "contentType": "image/jpeg"
+                },
+                "document": {
+                  "contentType": "image/jpeg, image/png"
+                },
+                "document_back": {
+                  "contentType": "image/jpeg, image/png"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted — job submitted for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — validation error in request body or headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required — insufficient wallet balance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — partner not authorized for this product or IP.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large — an uploaded file exceeds the size limit.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type — request must be multipart/form-data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/enhanced_document_verification": {
+      "post": {
+        "summary": "Submit Enhanced Document Verification",
+        "operationId": "v3EnhancedDocumentVerificationEntry",
+        "tags": [
+          "Enhanced Document Verification"
+        ],
+        "description": "Verifies a user's identity by comparing a selfie against a document image and cross-referencing extracted data for additional verification. The selfie and liveness images are uploaded alongside a document photo (front, and optionally back). The id_type is required for this endpoint. Results are delivered asynchronously via callback URL.",
+        "parameters": [
+          {
+            "name": "SmileID-Partner-ID",
+            "in": "header",
+            "required": true,
+            "description": "Partner identifier (numeric, 3+ digits).",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{3,}$"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK-Version",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK version.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Timestamp",
+            "in": "header",
+            "required": false,
+            "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SmileID-Request-Signature",
+            "in": "header",
+            "required": false,
+            "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-ID",
+            "in": "header",
+            "required": false,
+            "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/EnhancedDocumentVerificationRequest"
+              },
+              "encoding": {
+                "selfie_image": {
+                  "contentType": "image/jpeg"
+                },
+                "liveness_images": {
+                  "contentType": "image/jpeg"
+                },
+                "document": {
+                  "contentType": "image/jpeg, image/png"
+                },
+                "document_back": {
+                  "contentType": "image/jpeg, image/png"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted — job submitted for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — validation error in request body or headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required — insufficient wallet balance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — partner not authorized for this product, ID type, or IP.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large — an uploaded file exceeds the size limit.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type — request must be multipart/form-data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/registration": {
+      "post": {
+        "summary": "Submit biometric enrollment",
+        "operationId": "v3BiometricEnrollment",
+        "tags": [
+          "Biometric Enrollment"
+        ],
+        "description": "Enrolls a user's biometric selfie for future authentication. The selfie and liveness images are uploaded, validated at entry, then processed asynchronously (passive liveness, active liveness). Results are delivered via callback URL.",
+        "parameters": [
+          {
+            "name": "SmileID-Source-SDK",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK-Version",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK version.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Timestamp",
+            "in": "header",
+            "required": false,
+            "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SmileID-Request-Signature",
+            "in": "header",
+            "required": false,
+            "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-ID",
+            "in": "header",
+            "required": false,
+            "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/BiometricEnrollmentRequest"
+              },
+              "encoding": {
+                "selfie_image": {
+                  "contentType": "image/jpeg"
+                },
+                "liveness_images": {
+                  "contentType": "image/jpeg"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted — verification submitted for async processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — validation error in request body or headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required — insufficient wallet balance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — partner not authorized for this product or IP.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large — an uploaded file exceeds the size limit.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type — request must be multipart/form-data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/authentication": {
+      "post": {
+        "summary": "Submit biometric authentication",
+        "operationId": "v3BiometricAuthentication",
+        "tags": [
+          "Biometric Authentication"
+        ],
+        "description": "Authenticates a user by comparing a submitted selfie against their enrolled image. The selfie and liveness images are uploaded, validated at entry, then queued for async ML processing (passive liveness, active liveness, face matching). Results are delivered via callback URL.\nSupports `use_enrolled_image: true` to skip selfie/liveness upload and re-use the enrolled image for the comparison (useful for server-side re-verification).",
+        "parameters": [
+          {
+            "name": "SmileID-Source-SDK",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK-Version",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK version.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Timestamp",
+            "in": "header",
+            "required": false,
+            "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SmileID-Request-Signature",
+            "in": "header",
+            "required": false,
+            "description": "HMAC signature of the raw HTTP request body.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-ID",
+            "in": "header",
+            "required": false,
+            "description": "Partner-provided user identifier override.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/BiometricAuthenticationRequest"
+              },
+              "encoding": {
+                "selfie_image": {
+                  "contentType": "image/jpeg"
+                },
+                "liveness_images": {
+                  "contentType": "image/jpeg"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted — job queued for async processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required — insufficient wallet balance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — partner not authorized for this product or IP.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type — request must be multipart/form-data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/compare": {
+      "post": {
+        "summary": "Submit smart selfie compare",
+        "operationId": "v3SmartSelfieCompare",
+        "tags": [
+          "Smart Selfie Compare"
+        ],
+        "description": "Compares a selfie image against a provided comparison image (document, ID photo, or portrait). The images are uploaded, validated at entry, then queued for async ML processing (passive liveness, face matching, optional active liveness with liveness images). Results are delivered via callback URL.\nIf `user_id` is provided and the comparison passes, the user will be enrolled.",
+        "parameters": [
+          {
+            "name": "SmileID-Source-SDK",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Source-SDK-Version",
+            "in": "header",
+            "required": false,
+            "description": "Source SDK version.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SmileID-Timestamp",
+            "in": "header",
+            "required": false,
+            "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "SmileID-Request-Signature",
+            "in": "header",
+            "required": false,
+            "description": "HMAC signature of the raw HTTP request body.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-ID",
+            "in": "header",
+            "required": false,
+            "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/SmartSelfieCompareRequest"
+              },
+              "encoding": {
+                "selfie_image": {
+                  "contentType": "image/jpeg"
+                },
+                "comparison_image": {
+                  "contentType": "image/jpeg"
+                },
+                "liveness_images": {
+                  "contentType": "image/jpeg"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted — job queued for async processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required — insufficient wallet balance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — partner not authorized for this product or IP.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type — request must be multipart/form-data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests — rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/services/bank_codes": {
+      "get": {
+        "operationId": "getBankCodes",
+        "tags": [
+          "Services"
+        ],
+        "summary": "List bank codes",
+        "description": "Returns a list of bank codes supported for bank-account-based identity\nverification. Optionally filtered by country.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CountryFilter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response containing bank codes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankCodesResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request blocked (IP blocked).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/services/supported_id_types": {
+      "get": {
+        "operationId": "getSupportedIdTypes",
+        "tags": [
+          "Services"
+        ],
+        "summary": "List supported KYC ID types",
+        "description": "Returns a list of all KYC ID types supported for identity verification,\nincluding their validation regex, required fields, and optional bank code.\nOptionally filtered by country.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CountryFilter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response containing supported ID types.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportedIdTypesResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request blocked (IP blocked).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/services/id_status": {
+      "get": {
+        "operationId": "getIdStatus",
+        "tags": [
+          "Services"
+        ],
+        "summary": "Get ID type availability status",
+        "description": "Returns the current availability and success rate for a specific ID type\nin a given country, based on uptime data from the last hour.\n\nRequires authentication via JWT token.\n",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "query",
+            "required": true,
+            "description": "ISO 3166-1 alpha-2 country code or full country name (e.g. \"NG\" or \"Nigeria\").",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_type",
+            "in": "query",
+            "required": true,
+            "description": "The ID type code to check status for (e.g. \"BVN\", \"NIN\", \"VOTER_ID\").",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ID status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdStatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request – missing or invalid parameters, or no uptime data found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdStatusErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdStatusErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/services/supported_documents": {
+      "get": {
+        "operationId": "getSupportedDocuments",
+        "tags": [
+          "Services"
+        ],
+        "summary": "List supported documents for verification",
+        "description": "Returns a list of supported document types for identity verification across all\ncountries served by Smile Identity.\n\nThe response can be filtered by continent or country code. An optional `locale`\nparameter controls the language of document names.\n\nThis endpoint does not require authentication. It is an alias of\n`GET /v1/valid_documents` and `GET /v3/valid-documents`.\n",
+        "parameters": [
+          {
+            "name": "continent",
+            "in": "query",
+            "required": false,
+            "description": "Filter results to a single continent.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AFRICA",
+                "ASIA",
+                "EUROPE",
+                "NORTH AMERICA",
+                "OCEANIA",
+                "SOUTH AMERICA"
+              ]
+            }
+          },
+          {
+            "name": "country_code",
+            "in": "query",
+            "required": false,
+            "description": "Filter results to a single country. Must be an ISO 3166-1 alpha-2 code\n(two uppercase letters).\n",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "description": "Locale for document names. Defaults to `en-GB`.\nSupported values: `en-GB`, `fr-FR`, `ar-EG`.\n",
+            "schema": {
+              "type": "string",
+              "default": "en-GB",
+              "enum": [
+                "en-GB",
+                "fr-FR",
+                "ar-EG"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of supported documents, optionally filtered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportedDocumentsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/users/{user_id}/report_fraud": {
+      "post": {
+        "operationId": "reportUserFraud",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Flag or clear fraud status for a user",
+        "description": "Records a fraud report (or fraud-clearance) for a previously enrolled\nuser.\n\nUse `is_fraud: true` to flag a user as fraudulent, or `is_fraud: false`\nto clear a previous flag. Flagging propagates the user's face, device,\nand biometric clusters to the relevant block lists so that subsequent\nverifications matching them are rejected. Clearing the flag reverses\nthese effects.\n\nThe response is `202 Accepted` once the request has been validated\nand handled.\n",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "description": "The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportUserFraudRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Fraud report accepted and queued for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportUserFraudAcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error. Possible causes:\n- `user_id` path parameter is missing.\n- `is_fraud` is missing or not a boolean.\n- `reason` is missing when `is_fraud` is `true`, or is not one of\n  the allowed values.\n- `notes` is missing when `is_fraud` is `false` or `reason` is\n  `OTHER`.\n- `notes` exceeds 500 characters.\n- `reported_by` is missing or is not a valid email address.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed (invalid or missing token).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied. Possible causes:\n- IP address is on the blocklist.\n- IP not in partner's allowlist.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No enrollee found for the given `user_id` and partner.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Wrong or missing `Content-Type` header. The request body must be\nsent as `multipart/form-data`.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/replay/{job_id}": {
+      "post": {
+        "operationId": "replayCallback",
+        "tags": [
+          "Callback Replay"
+        ],
+        "summary": "Replay a callback for a completed verification",
+        "description": "Looks up a previously completed verification by its TypeID, resolves the callback URL, and re-sends the callback. The verification must have reached a terminal state (clear, block, attention, or error) before its callback can be replayed.\nAn optional `callback_url` in the request body overrides the stored URL, subject to the partner's callback domain allowlist.",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "description": "TypeID format verification identifier with 'job_' prefix.",
+            "schema": {
+              "type": "string",
+              "pattern": "^job_[0-9a-z]{26}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "description": "Optional body to override the callback URL. If omitted, the stored callback URL (from the original verification or partner default) is used.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplayCallbackRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Callback replay accepted and queued for delivery.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReplayCallbackResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — invalid job_id format, unrecognised product, or no valid callback URL available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — IP not in allowlist, callback URL not in allowed domains, or security checks failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found — verification does not exist, does not belong to this partner, or has no reference entry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict — verification has not yet reached a terminal state. Wait for processing to complete before replaying the callback.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/status/{jobId}": {
+      "get": {
+        "operationId": "getVerificationStatus",
+        "tags": [
+          "Verification Status"
+        ],
+        "summary": "Get verification status",
+        "description": "Retrieves the current status of a previously submitted verification. Returns the latest state from the verification lifecycle (processing, clear, block, attention, error).",
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "description": "TypeID format verification identifier with 'job_' prefix.",
+            "schema": {
+              "type": "string",
+              "pattern": "^job_[0-9a-hjkmnp-tv-z]{26}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification has reached a terminal state (clear, block, attention, or error).",
+            "headers": {
+              "api_version": {
+                "$ref": "#/components/headers/ApiVersion"
+              },
+              "job_id": {
+                "$ref": "#/components/headers/JobId"
+              },
+              "user_id": {
+                "$ref": "#/components/headers/UserId"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatusResponse"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Verification is still processing.",
+            "headers": {
+              "api_version": {
+                "$ref": "#/components/headers/ApiVersion"
+              },
+              "job_id": {
+                "$ref": "#/components/headers/JobId"
+              },
+              "user_id": {
+                "$ref": "#/components/headers/UserId"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — invalid jobId format.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — invalid or missing authentication credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — IP not in allowlist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found — verification does not exist or does not belong to this partner.",
+            "headers": {
+              "api_version": {
+                "$ref": "#/components/headers/ApiVersion"
+              },
+              "job_id": {
+                "$ref": "#/components/headers/JobId"
+              },
+              "user_id": {
+                "$ref": "#/components/headers/UserId"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatusResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "SmileIDToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "SmileID-Token",
+        "description": "JWT token obtained from `POST /v3/token`."
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "HTTP status text."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message."
+          }
+        }
+      },
+      "EnhancedKycRequest": {
+        "type": "object",
+        "required": [
+          "country",
+          "id_type",
+          "id_number",
+          "user_details",
+          "consent"
+        ],
+        "properties": {
+          "country": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2,
+            "description": "ISO 3166-1 alpha-2 country code (uppercase)."
+          },
+          "id_type": {
+            "type": "string",
+            "description": "ID document type (e.g., NIN, BVN, DRIVERS_LICENSE)."
+          },
+          "id_number": {
+            "type": "string",
+            "description": "ID document number. Must match the regex format for the country/id_type."
+          },
+          "user_details": {
+            "type": "object",
+            "required": [
+              "given_names",
+              "last_name"
+            ],
+            "description": "Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+            "properties": {
+              "given_names": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Given names of the individual."
+              },
+              "last_name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Last name / surname of the individual."
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "nullable": true,
+                "description": "Email address. At least one of email or phone_number is required."
+              },
+              "phone_number": {
+                "type": "string",
+                "pattern": "^\\+[1-9]\\d{6,14}$",
+                "nullable": true,
+                "description": "Phone number in E.164 format (must start with +). At least one of email or phone_number is required."
+              }
+            }
+          },
+          "consent": {
+            "$ref": "#/components/schemas/Consent"
+          },
+          "callback_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list."
+          },
+          "bank_code": {
+            "type": "string",
+            "description": "Bank code (required for certain ID types like BANK_ACCOUNT)."
+          },
+          "operator": {
+            "type": "string",
+            "description": "Telecom operator (required for certain ID types)."
+          },
+          "partner_params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Arbitrary key-value metadata for partner reference."
+          },
+          "metadata": {
+            "type": "array",
+            "description": "Additional metadata entries.",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "value": {
+                  "type": "string",
+                  "maxLength": 1000
+                }
+              }
+            }
+          }
+        }
+      },
+      "Consent": {
+        "type": "object",
+        "required": [
+          "granted",
+          "granted_at",
+          "notice_language",
+          "notice_privacy_policy_url"
+        ],
+        "properties": {
+          "granted": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "granted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notice_language": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2,
+            "pattern": "^[A-Z]{2}$"
+          },
+          "notice_privacy_policy_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "AcceptedResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "Accepted"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BiometricKycRequest": {
+        "type": "object",
+        "required": [
+          "selfie_image",
+          "liveness_images",
+          "consent",
+          "country",
+          "id_type",
+          "id_number",
+          "user_details"
+        ],
+        "properties": {
+          "selfie_image": {
+            "type": "string",
+            "format": "binary",
+            "description": "JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo."
+          },
+          "liveness_images": {
+            "type": "array",
+            "minItems": 6,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "description": "Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification."
+          },
+          "consent": {
+            "$ref": "#/components/schemas/Consent"
+          },
+          "country": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2,
+            "description": "ISO 3166-1 alpha-2 country code (uppercase)."
+          },
+          "id_type": {
+            "type": "string",
+            "description": "ID document type (e.g., NIN, BVN, DRIVERS_LICENSE)."
+          },
+          "id_number": {
+            "type": "string",
+            "description": "ID document number. Must match the regex format for the country/id_type."
+          },
+          "user_details": {
+            "type": "object",
+            "required": [
+              "given_names",
+              "last_name"
+            ],
+            "description": "Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+            "properties": {
+              "given_names": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Given name(s) / first name of the individual."
+              },
+              "last_name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Last name / surname of the individual."
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "nullable": true,
+                "description": "Email address of the individual. At least one of email or phone_number is required."
+              },
+              "phone_number": {
+                "type": "string",
+                "pattern": "^\\+[1-9]\\d{6,14}$",
+                "nullable": true,
+                "description": "Phone number in E.164 format (must start with +). At least one of email or phone_number is required."
+              }
+            }
+          },
+          "callback_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list."
+          },
+          "sandbox_result": {
+            "type": "number",
+            "description": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode."
+          },
+          "partner_params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Arbitrary key-value metadata for partner reference."
+          },
+          "metadata": {
+            "type": "array",
+            "description": "Additional metadata entries (e.g., SDK telemetry, device info).",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "value": {
+                  "type": "string",
+                  "maxLength": 1000
+                }
+              }
+            }
+          }
+        }
+      },
+      "DocumentVerificationRequest": {
+        "type": "object",
+        "required": [
+          "selfie_image",
+          "liveness_images",
+          "consent",
+          "country",
+          "document",
+          "user_details"
+        ],
+        "properties": {
+          "selfie_image": {
+            "type": "string",
+            "format": "binary",
+            "description": "JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo."
+          },
+          "liveness_images": {
+            "type": "array",
+            "minItems": 6,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "description": "Array of JPEG liveness sequence images captured during the liveness check. These images are used for liveness verification."
+          },
+          "document": {
+            "type": "string",
+            "format": "binary",
+            "description": "Front of the identity document (JPEG or PNG). Used for document verification."
+          },
+          "document_back": {
+            "type": "string",
+            "format": "binary",
+            "description": "Back of the identity document (JPEG or PNG). Optional. Provide when the document has relevant information on the back (e.g., barcodes, MRZ on some document types)."
+          },
+          "consent": {
+            "$ref": "#/components/schemas/Consent"
+          },
+          "country": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2,
+            "description": "ISO 3166-1 alpha-2 country code (uppercase)."
+          },
+          "id_type": {
+            "type": "string",
+            "description": "ID document type (e.g., DRIVERS_LICENSE, NATIONAL_ID). Optional for standard Document Verification — the document type is auto-classified if not provided."
+          },
+          "user_details": {
+            "type": "object",
+            "required": [
+              "given_names",
+              "last_name"
+            ],
+            "description": "Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+            "properties": {
+              "given_names": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Given name(s) / first name of the individual."
+              },
+              "last_name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Last name / surname of the individual."
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "nullable": true,
+                "description": "Email address of the individual. At least one of email or phone_number is required."
+              },
+              "phone_number": {
+                "type": "string",
+                "pattern": "^\\+[1-9]\\d{6,14}$",
+                "nullable": true,
+                "description": "Phone number in E.164 format (must start with +). At least one of email or phone_number is required."
+              }
+            }
+          },
+          "callback_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list."
+          },
+          "partner_params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Arbitrary key-value metadata for partner reference."
+          },
+          "metadata": {
+            "type": "array",
+            "description": "Additional metadata entries (e.g., SDK telemetry, device info).",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "value": {
+                  "type": "string",
+                  "maxLength": 1000
+                }
+              }
+            }
+          }
+        }
+      },
+      "EnhancedDocumentVerificationRequest": {
+        "type": "object",
+        "required": [
+          "selfie_image",
+          "liveness_images",
+          "consent",
+          "country",
+          "document",
+          "id_type",
+          "user_details"
+        ],
+        "properties": {
+          "selfie_image": {
+            "type": "string",
+            "format": "binary",
+            "description": "JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo."
+          },
+          "liveness_images": {
+            "type": "array",
+            "minItems": 6,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "description": "Array of JPEG liveness sequence images captured during the liveness check. These images are used for liveness verification."
+          },
+          "document": {
+            "type": "string",
+            "format": "binary",
+            "description": "Front of the identity document (JPEG or PNG). Used for document verification and data extraction."
+          },
+          "document_back": {
+            "type": "string",
+            "format": "binary",
+            "description": "Back of the identity document (JPEG or PNG). Optional. Provide when the document has relevant information on the back (e.g., barcodes, MRZ on some document types)."
+          },
+          "consent": {
+            "$ref": "#/components/schemas/Consent"
+          },
+          "country": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2,
+            "description": "ISO 3166-1 alpha-2 country code (uppercase)."
+          },
+          "id_type": {
+            "type": "string",
+            "description": "ID document type (e.g., DRIVERS_LICENSE, NATIONAL_ID). Required for Enhanced Document Verification."
+          },
+          "user_details": {
+            "type": "object",
+            "required": [
+              "given_names",
+              "last_name"
+            ],
+            "description": "Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+            "properties": {
+              "given_names": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Given name(s) / first name of the individual."
+              },
+              "last_name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Last name / surname of the individual."
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "nullable": true,
+                "description": "Email address of the individual. At least one of email or phone_number is required."
+              },
+              "phone_number": {
+                "type": "string",
+                "pattern": "^\\+[1-9]\\d{6,14}$",
+                "nullable": true,
+                "description": "Phone number in E.164 format (must start with +). At least one of email or phone_number is required."
+              }
+            }
+          },
+          "callback_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list."
+          },
+          "partner_params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Arbitrary key-value metadata for partner reference."
+          },
+          "metadata": {
+            "type": "array",
+            "description": "Additional metadata entries (e.g., SDK telemetry, device info).",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "value": {
+                  "type": "string",
+                  "maxLength": 1000
+                }
+              }
+            }
+          }
+        }
+      },
+      "BiometricEnrollmentRequest": {
+        "type": "object",
+        "required": [
+          "selfie_image",
+          "liveness_images",
+          "consent",
+          "user_details"
+        ],
+        "properties": {
+          "selfie_image": {
+            "type": "string",
+            "format": "binary",
+            "description": "JPEG selfie image used as the enrollment reference photo. Must be a clear, well-lit, front-facing photo."
+          },
+          "liveness_images": {
+            "type": "array",
+            "minItems": 6,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "description": "Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification."
+          },
+          "consent": {
+            "$ref": "#/components/schemas/Consent"
+          },
+          "user_details": {
+            "type": "object",
+            "required": [
+              "given_names",
+              "last_name"
+            ],
+            "description": "Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+            "properties": {
+              "given_names": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Given name(s) / first name of the individual being enrolled."
+              },
+              "last_name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Last name / surname of the individual being enrolled."
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "nullable": true,
+                "description": "Email address of the individual being enrolled. At least one of email or phone_number is required."
+              },
+              "phone_number": {
+                "type": "string",
+                "pattern": "^\\+[1-9]\\d{6,14}$",
+                "nullable": true,
+                "description": "Phone number in E.164 format (must start with +). At least one of email or phone_number is required."
+              }
+            }
+          },
+          "allow_new_enroll": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, allows re-enrollment for a user who is already enrolled. The existing enrollment will be replaced with the new selfie. If false (default), enrollment fails if the user is already enrolled."
+          },
+          "callback_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list."
+          },
+          "sandbox_result": {
+            "type": "number",
+            "description": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode."
+          },
+          "partner_params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Arbitrary key-value metadata for partner reference."
+          },
+          "metadata": {
+            "type": "array",
+            "description": "Additional metadata entries (e.g., SDK telemetry, device info).",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "value": {
+                  "type": "string",
+                  "maxLength": 1000
+                }
+              }
+            }
+          }
+        }
+      },
+      "BiometricAuthenticationRequest": {
+        "type": "object",
+        "required": [
+          "user_id",
+          "consent",
+          "user_details"
+        ],
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "description": "The enrolled user's identifier. Must match an existing enrollee."
+          },
+          "selfie_image": {
+            "type": "string",
+            "format": "binary",
+            "description": "JPEG selfie image for authentication. Required unless use_enrolled_image is true."
+          },
+          "liveness_images": {
+            "type": "array",
+            "minItems": 6,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "description": "Array of JPEG liveness images. Required unless use_enrolled_image is true."
+          },
+          "consent": {
+            "$ref": "#/components/schemas/Consent"
+          },
+          "user_details": {
+            "type": "object",
+            "required": [
+              "given_names",
+              "last_name"
+            ],
+            "description": "Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+            "properties": {
+              "given_names": {
+                "type": "string",
+                "minLength": 1
+              },
+              "last_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "nullable": true,
+                "description": "At least one of email or phone_number is required."
+              },
+              "phone_number": {
+                "type": "string",
+                "pattern": "^\\+[1-9]\\d{6,14}$",
+                "nullable": true,
+                "description": "Phone number in E.164 format. At least one of email or phone_number is required."
+              }
+            }
+          },
+          "use_enrolled_image": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication."
+          },
+          "callback_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive the async result callback."
+          },
+          "sandbox_result": {
+            "type": "number",
+            "description": "Force a specific result code in sandbox mode."
+          },
+          "partner_params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "metadata": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "value": {
+                  "type": "string",
+                  "maxLength": 1000
+                }
+              }
+            }
+          }
+        }
+      },
+      "SmartSelfieCompareRequest": {
+        "type": "object",
+        "required": [
+          "selfie_image",
+          "comparison_image",
+          "comparison_image_type",
+          "consent",
+          "user_details"
+        ],
+        "properties": {
+          "selfie_image": {
+            "type": "string",
+            "format": "binary",
+            "description": "JPEG selfie image."
+          },
+          "comparison_image": {
+            "type": "string",
+            "format": "binary",
+            "description": "JPEG comparison image (ID card photo, ID photo, or portrait)."
+          },
+          "comparison_image_type": {
+            "type": "string",
+            "enum": [
+              "DOCUMENT",
+              "ID_PHOTO",
+              "PORTRAIT"
+            ],
+            "description": "Type of comparison image being submitted."
+          },
+          "consent": {
+            "$ref": "#/components/schemas/Consent"
+          },
+          "user_details": {
+            "type": "object",
+            "required": [
+              "given_names",
+              "last_name"
+            ],
+            "description": "Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+            "properties": {
+              "given_names": {
+                "type": "string",
+                "minLength": 1
+              },
+              "last_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "nullable": true,
+                "description": "At least one of email or phone_number is required."
+              },
+              "phone_number": {
+                "type": "string",
+                "pattern": "^\\+[1-9]\\d{6,14}$",
+                "nullable": true,
+                "description": "Phone number in E.164 format. At least one of email or phone_number is required."
+              }
+            }
+          },
+          "liveness_images": {
+            "type": "array",
+            "minItems": 6,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "description": "Optional array of JPEG liveness images. If omitted, active liveness check is skipped."
+          },
+          "allow_new_enroll": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, allows re-enrollment for a user who is already enrolled."
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Optional user identifier. If provided and the job passes, the user will be enrolled."
+          },
+          "callback_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive the async result callback."
+          },
+          "sandbox_result": {
+            "type": "number",
+            "description": "Force a specific result code in sandbox mode."
+          },
+          "partner_params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "metadata": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "value": {
+                  "type": "string",
+                  "maxLength": 1000
+                }
+              }
+            }
+          }
+        }
+      },
+      "BankCodesResponse": {
+        "type": "object",
+        "properties": {
+          "bank_codes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BankCode"
+            }
+          }
+        }
+      },
+      "BankCode": {
+        "type": "object",
+        "required": [
+          "code",
+          "country",
+          "name"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Numeric bank code assigned by the country's central bank."
+          },
+          "country": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code."
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable bank name."
+          }
+        }
+      },
+      "SupportedIdTypesResponse": {
+        "type": "object",
+        "properties": {
+          "id_types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportedIdType"
+            }
+          }
+        }
+      },
+      "SupportedIdType": {
+        "type": "object",
+        "required": [
+          "country",
+          "type",
+          "label",
+          "regex"
+        ],
+        "properties": {
+          "bank_code": {
+            "type": "string",
+            "description": "Bank code required for this ID type. Only present for ID types that are\nbank-specific (e.g. `BANK_ACCOUNT`).\n"
+          },
+          "country": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code."
+          },
+          "label": {
+            "type": "string",
+            "description": "Human-readable label for the ID type."
+          },
+          "regex": {
+            "type": "string",
+            "description": "Regular expression pattern (without delimiters) that the ID number must\nmatch for this ID type.\n"
+          },
+          "required_fields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of field names that must be provided when submitting a verification\nrequest for this ID type (e.g. `first_name`, `last_name`, `dob`).\n"
+          },
+          "type": {
+            "type": "string",
+            "description": "Machine-readable ID type code."
+          }
+        }
+      },
+      "IdStatusResponse": {
+        "type": "object",
+        "required": [
+          "last_checked",
+          "last_check_status",
+          "last_hour_success_rate",
+          "last_known_status",
+          "last_check_success_rate"
+        ],
+        "properties": {
+          "last_checked": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the most recent uptime check."
+          },
+          "last_check_status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "failure"
+            ],
+            "description": "Whether the most recent check succeeded or failed."
+          },
+          "last_hour_success_rate": {
+            "type": "string",
+            "description": "Aggregate success rate over the last hour as a percentage."
+          },
+          "last_known_status": {
+            "type": "string",
+            "description": "The raw status string from the most recent check (e.g. \"online\", \"offline\")."
+          },
+          "last_check_success_rate": {
+            "type": "string",
+            "description": "Success rate of the most recent individual check as a percentage."
+          }
+        }
+      },
+      "IdStatusErrorResponse": {
+        "type": "object",
+        "required": [
+          "message",
+          "status"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message."
+          },
+          "status": {
+            "type": "string",
+            "description": "HTTP status text (e.g. \"Bad Request\", \"Unauthorized\")."
+          }
+        }
+      },
+      "SupportedDocumentsResponse": {
+        "type": "object",
+        "required": [
+          "valid_documents"
+        ],
+        "properties": {
+          "valid_documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportedDocument"
+            }
+          }
+        }
+      },
+      "SupportedDocument": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "$ref": "#/components/schemas/Country"
+          },
+          "id_types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IDType"
+            }
+          }
+        }
+      },
+      "Country": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code."
+          },
+          "name": {
+            "type": "string",
+            "description": "Country name."
+          },
+          "continent": {
+            "type": "string",
+            "description": "Continent name."
+          }
+        }
+      },
+      "IDType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Machine-readable ID type code."
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable name of the ID type."
+          },
+          "has_back": {
+            "type": "boolean",
+            "description": "Whether this document type has a back side that should be captured."
+          }
+        }
+      },
+      "ReportUserFraudRequest": {
+        "type": "object",
+        "required": [
+          "is_fraud",
+          "reported_by"
+        ],
+        "properties": {
+          "is_fraud": {
+            "type": "boolean",
+            "description": "`true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n",
+            "enum": [
+              "FIRST_PARTY_FRAUD",
+              "SECOND_PARTY_FRAUD",
+              "THIRD_PARTY_FRAUD",
+              "SYNTHETIC_IDENTITY",
+              "ACCOUNT_TAKEOVER",
+              "DOCUMENT_FORGERY",
+              "IDENTITY_FARMING",
+              "MULE_ACCOUNT",
+              "OTHER"
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n"
+          },
+          "reported_by": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the person submitting the report."
+          }
+        },
+        "additionalProperties": true
+      },
+      "ReportUserFraudAcceptedResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "user_id"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "accepted"
+            ],
+            "description": "Always `accepted` when the request was queued for processing."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable result message."
+          },
+          "user_id": {
+            "type": "string",
+            "description": "The `user_id` that was reported."
+          }
+        }
+      },
+      "ReplayCallbackRequest": {
+        "type": "object",
+        "properties": {
+          "callback_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Override callback URL. Must be on the partner's callback domain allowlist. If omitted, the stored callback URL is used."
+          }
+        }
+      },
+      "ReplayCallbackResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "job_id",
+          "user_id",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Always 'accepted' for successful replay requests.",
+            "enum": [
+              "accepted"
+            ]
+          },
+          "job_id": {
+            "type": "string",
+            "description": "TypeID format verification identifier."
+          },
+          "user_id": {
+            "type": "string",
+            "description": "User ID associated with the verification (from partner_params)."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable confirmation message."
+          }
+        }
+      },
+      "JobStatusResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "job_id",
+          "user_id",
+          "message",
+          "created_at"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Verification status. Terminal states (clear, block, attention, error) are returned with HTTP 200; processing is returned with HTTP 202; not_found is returned with HTTP 404.",
+            "enum": [
+              "clear",
+              "block",
+              "attention",
+              "error",
+              "processing",
+              "not_found"
+            ]
+          },
+          "job_id": {
+            "type": "string",
+            "description": "TypeID format verification identifier."
+          },
+          "user_id": {
+            "type": "string",
+            "description": "User ID associated with the verification."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable status message."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp the status response was generated (ISO 8601)."
+          }
+        }
+      }
+    }
+  }
+}

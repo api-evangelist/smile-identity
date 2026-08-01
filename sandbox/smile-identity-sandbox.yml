@@ -1,0 +1,51 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.usesmileid.com/developer-resources/essentials/testing-in-sandbox
+docs: https://docs.usesmileid.com/developer-resources/essentials/testing-in-sandbox
+environments:
+  sandbox_base_url: https://api.sandbox.smileidentity.com
+  production_base_url: https://api.smileidentity.com
+  isolation: Separate API keys, tokens and callback URLs per environment; not interchangeable.
+model:
+  matching: Test identities matched on last_name + given_names + email.
+  behavior: Each test identity yields a deterministic status/reason/message; other inputs are echoed back.
+  validation: Full input validation (regex, supported country/id_type) runs before test-identity matching.
+  no_match: Requests that pass validation but match no test identity return an error (sandbox only supports test identities).
+  force_result: The sandbox_result numeric field can force a specific result code in sandbox mode.
+test_identities:
+  enhanced_kyc:
+  - {last_name: Clearwater, given_names: Amina Fatou, email: amina.clearwater@example.com, status: clear, reason: null, message: Verification successful}
+  - {last_name: Dangerfield, given_names: Rashid Omar, email: rashid.dangerfield@example.com, status: block, reason: high_risk, message: Verification failed}
+  - {last_name: Ghostwell, given_names: Fatima Bello, email: fatima.ghostwell@example.com, status: block, reason: identifier_not_found, message: 'Verification failed: Unable to validate ID - Not Found'}
+  - {last_name: Youngblood, given_names: Aisha Lawal, email: aisha.youngblood@example.com, status: block, reason: age_requirement_not_met, message: 'Verification failed: Customer must be above 18'}
+  - {last_name: Downsworth, given_names: Ngozi Ifeoma, email: ngozi.downsworth@example.com, status: error, reason: service_unavailable, message: 'Error: external service unavailable'}
+  biometric_kyc:
+  - {last_name: Clearwater, given_names: Amina Fatou, email: amina.clearwater@example.com, status: clear, reason: null, message: Verification successful}
+  - {last_name: Dangerfield, given_names: Rashid Omar, email: rashid.dangerfield@example.com, status: block, reason: high_risk, message: Verification failed}
+  - {last_name: Twinley, given_names: Obinna Chukwu, email: obinna.twinley@example.com, status: block, reason: face_verification_failed, message: Verification failed}
+  - {last_name: Ghostwell, given_names: Fatima Bello, email: fatima.ghostwell@example.com, status: block, reason: identifier_not_found, message: 'Verification failed: Unable to validate ID - Not Found'}
+  - {last_name: Masquero, given_names: Taiwo Adeyemi, email: taiwo.masquero@example.com, status: block, reason: spoof_detected, message: Verification failed}
+  - {last_name: Blurton, given_names: Kofi Mensah, email: kofi.blurton@example.com, status: error, reason: image_unavailable_or_invalid, message: 'Error: <image_type_list> image(s) are unusable'}
+  - {last_name: Downsworth, given_names: Ngozi Ifeoma, email: ngozi.downsworth@example.com, status: error, reason: service_unavailable, message: 'Error: external service unavailable'}
+  - {last_name: Glitchford, given_names: Chidinma Obi, email: chidinma.glitchford@example.com, status: error, reason: internal_error, message: 'Error: verification could not be completed at this time'}
+  document_verification:
+  - {last_name: Clearwater, given_names: Amina Fatou, email: amina.clearwater@example.com, status: clear, reason: null, message: Verification successful}
+  - {last_name: Forgeman, given_names: Ade Ogundimu, email: ade.forgeman@example.com, status: block, reason: document_check_failed, message: Verification failed}
+  - {last_name: Oddpaper, given_names: Olumide Fashola, email: olumide.oddpaper@example.com, status: block, reason: unsupported_document, message: Verification failed}
+  - {last_name: Xeroxley, given_names: Adaeze Nnamdi, email: adaeze.xeroxley@example.com, status: attention, reason: document_copy_detected, message: Verification successful}
+  - {last_name: Oldfield, given_names: Tunde Bakare, email: tunde.oldfield@example.com, status: attention, reason: document_expired, message: Verification successful}
+  - {last_name: Puzzleton, given_names: Segun Olawale, email: segun.puzzleton@example.com, status: error, reason: document_unclassifiable, message: 'Error: document could not be classified'}
+  enhanced_document_verification:
+  - {last_name: Missingley, given_names: Ifeanyi Okeke, email: ifeanyi.missingley@example.com, status: block, reason: identifier_not_found, message: 'Verification failed: ID number not found'}
+  - {last_name: Badnumber, given_names: Wale Oladipo, email: wale.badnumber@example.com, status: error, reason: invalid_id_number, message: 'Verification failed: invalid id number'}
+  smartselfie_shared:
+    note: >-
+      SmartSelfie Registration/Authentication/Compare reuse the Clearwater (clear),
+      Dangerfield (high_risk), Twinley (face_verification_failed), Masquero
+      (spoof_detected), Lockhart (account_locked, auth only), Blurton
+      (image_unavailable_or_invalid) and Glitchford (internal_error) identities.
+      For Registration the webhook message uses "Enrollment" wording.
+notes: >-
+  Test identity emails are fictitious example.com addresses published by Smile ID
+  for deterministic sandbox testing. Do not send real PII, selfies or documents
+  to the sandbox.

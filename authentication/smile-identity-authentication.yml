@@ -1,0 +1,53 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.usesmileid.com/api-reference/authentication
+docs: https://docs.usesmileid.com/api-reference/authentication
+summary:
+  types: [apiKey, http]
+  api_key_in: [header]
+  oauth2_flows: []
+  model: >-
+    Two-legged: a server-side API key + partner ID mint a short-lived JWT via
+    POST /v3/token; that JWT is then sent as the SmileID-Token header on every
+    verification request. An optional HMAC request signature (SmileID-Timestamp
+    + SmileID-Request-Signature) is required when the account is configured for
+    SDK/partner-secret HMAC authentication.
+schemes:
+- name: token-mint
+  type: apiKey
+  in: header
+  description: >-
+    smileid-partner-id and smileid-api-key headers POSTed to /v3/token to mint a
+    signed JWT access token (15-minute expiry). Keys are environment-specific
+    (sandbox vs production) and must never be exposed client-side.
+  headers: [smileid-partner-id, smileid-api-key]
+  token_endpoint: https://api.smileidentity.com/v3/token
+  sources: [openapi/smile-identity-v3-openapi.json]
+- name: SmileIDToken
+  type: apiKey
+  in: header
+  parameter_name: SmileID-Token
+  description: JWT bearer token (from /v3/token) sent on all V3 verification requests.
+  sources: [openapi/smile-identity-v3-openapi.json]
+- name: SmileID-Partner-ID
+  type: apiKey
+  in: header
+  parameter_name: SmileID-Partner-ID
+  description: Numeric partner identifier accompanying the token on each request.
+  sources: [openapi/smile-identity-v3-openapi.json]
+- name: hmac-signature
+  type: http
+  scheme: hmac
+  description: >-
+    Optional HMAC signature of the raw request body using the SDK/partner secret
+    with SmileID-Timestamp as salt, sent in SmileID-Request-Signature. Required
+    only when the account uses SDK/partner-secret HMAC authentication.
+  headers: [SmileID-Timestamp, SmileID-Request-Signature]
+  sources: [openapi/smile-identity-v3-openapi.json, https://docs.usesmileid.com/api-reference/authentication]
+token:
+  format: JWT
+  expiry_minutes: 15
+  environment_scoped: true
+notes: >-
+  No OAuth2 / OpenID Connect surface — Smile ID uses API-key-minted JWT tokens
+  plus optional HMAC request signing, so there is no OAuth scopes artifact.

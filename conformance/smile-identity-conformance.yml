@@ -1,0 +1,39 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/smile-identity-v3-openapi.json + https://docs.usesmileid.com
+standards:
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 securitySchemes; auth is API-key-minted JWT + optional HMAC.
+- id: openid-connect
+  conforms: false
+- id: jwt
+  conforms: true
+  evidence: /v3/token issues a signed JWT used as the SmileID-Token bearer.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use a custom { status, message } envelope, not application/problem+json.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No documented Sunset/Deprecation header policy.
+- id: hmac-request-signing
+  conforms: true
+  evidence: Optional SmileID-Request-Signature (HMAC over body, timestamp salt).
+- id: webhooks-callbacks
+  conforms: true
+  evidence: Asynchronous results delivered to callback_url with signed payloads.
+- id: iso3166-country-codes
+  conforms: true
+  evidence: country field is ISO 3166-1 alpha-2 (uppercase).
+- id: iso639-language-codes
+  conforms: true
+  evidence: consent.notice_language is ISO 639-1.
+- id: e164-phone
+  conforms: true
+  evidence: phone_number validated against E.164 pattern.
+compliance_program:
+  note: >-
+    Smile ID processes regulated KYC/AML PII across Africa and markets data
+    protection / compliance posture, but a specific certification set (SOC 2 /
+    ISO 27001 / etc.) was not verified from a public trust page at probe time.
+    No Compliance pointer emitted until a certification page is confirmed.

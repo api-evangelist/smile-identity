@@ -1,0 +1,25 @@
+generated: '2026-07-21'
+method: generated
+source: openapi/smile-identity-v3-openapi.json
+note: >-
+  Packaged Agent Skills for the marquee Smile ID V3 flows. Every step is grounded
+  in a real operationId verified present in the V3 OpenAPI. No provider-published
+  AGENTS.md / skill files were found; these are generated from the spec plus the
+  conventions/, errors/ and authentication/ artifacts.
+skills:
+- file: smile-identity-biometric-kyc.md
+  name: Run a Biometric KYC verification
+  api: openapi/smile-identity-v3-openapi.json
+  operations: [getV3Token, v3BiometricKycEntry, getVerificationStatus]
+- file: smile-identity-document-verification.md
+  name: Run a Document Verification
+  api: openapi/smile-identity-v3-openapi.json
+  operations: [getV3Token, v3DocumentVerificationEntry, getVerificationStatus]
+- file: smile-identity-enhanced-kyc.md
+  name: Run an Enhanced KYC (no-biometrics) verification
+  api: openapi/smile-identity-v3-openapi.json
+  operations: [getV3Token, submitEnhancedKyc, getVerificationStatus]
+- file: smile-identity-smartselfie-auth.md
+  name: Enroll and authenticate a user with SmartSelfie
+  api: openapi/smile-identity-v3-openapi.json
+  operations: [getV3Token, v3BiometricEnrollment, v3BiometricAuthentication]

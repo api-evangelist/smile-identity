@@ -1,0 +1,54 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.usesmileid.com/api-reference
+docs: https://docs.usesmileid.com/api-reference
+authentication:
+  style: API-key-minted JWT (SmileID-Token header) + partner ID; optional HMAC request signature
+  ref: authentication/smile-identity-authentication.yml
+versioning:
+  scheme: uri-path
+  current: v3
+  note: All endpoints are under /v3/. Prior generations were v1/v2 (server-to-server libraries).
+  ref: lifecycle/smile-identity-lifecycle.yml
+environments:
+  production: https://api.smileidentity.com
+  sandbox: https://api.sandbox.smileidentity.com
+  note: Fully isolated; keys, tokens and callback URLs are not interchangeable across environments.
+request:
+  content_type: multipart/form-data
+  images: JPEG binary (selfie_image, liveness_images[6-8], document images)
+  max_payload_bytes: 4718592  # 4.5MB documented limit
+async_model:
+  pattern: submit -> HTTP 202 Accepted -> asynchronous result to callback_url
+  accepted_response_fields: [status, message, job_id, user_id, created_at]
+  callback: callback_url (per-request or partner default; must be allow-listed)
+  status_polling: GET /v3/status/{jobId}
+  webhook_replay: POST /v3/replay/{job_id}
+tracing:
+  identifiers:
+    job_id: TypeID-format verification identifier
+    user_id: TypeID-format user identifier (or partner-provided User-ID header)
+  partner_reference: partner_params (key-value map)
+metadata:
+  fields: [partner_params, metadata]
+  metadata_shape: array of { name, value }
+pagination:
+  style: none-documented
+  note: Verification endpoints are single-job submissions; service lookups return full result sets.
+idempotency:
+  supported: false
+  note: >-
+    No idempotency-key header is documented. Request de-duplication is not part
+    of the public contract; an optional HMAC request signature exists for
+    integrity/authentication, not idempotency.
+rate_limiting:
+  signal: HTTP 429 "Rate limit exceeded. Please try again later."
+  scope: per ID number (documented on the 429 response)
+  guidance: exponential backoff
+error_envelope:
+  shape: '{ status, message }'
+  ref: errors/smile-identity-problem-types.yml
+consent:
+  required: true
+  fields: [granted, granted_at, notice_language, notice_privacy_policy_url]
+  note: Biometric/document products require an explicit consent object per request.
