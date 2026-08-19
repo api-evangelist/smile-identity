@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Enhanced KYC API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Enhanced KYC",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit Enhanced KYC verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smileidentity.com/v3/enhanced_kyc",
+            "headers": [
+              {
+                "name": "SmileID-Source-SDK",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK-Version",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Timestamp",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Request-Signature",
+                "value": ""
+              },
+              {
+                "name": "User-ID",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Allows submission of Enhanced KYC verification requests and processes the verification asynchronously against the relevant ID authority. Results are delivered via callback URL."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

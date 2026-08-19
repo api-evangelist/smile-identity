@@ -1,0 +1,1696 @@
+{
+  "item": [
+    {
+      "id": "880ef697-9039-4712-ae4c-4d4cb6b3e236",
+      "name": "Enhanced KYC",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0770b4a2-5981-47a3-b967-216901cdce9c",
+          "name": "Submit Enhanced KYC verification",
+          "request": {
+            "name": "Submit Enhanced KYC verification",
+            "description": {
+              "content": "Allows submission of Enhanced KYC verification requests and processes the verification asynchronously against the relevant ID authority. Results are delivered via callback URL.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "enhanced_kyc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Source SDK identifier.",
+                "key": "SmileID-Source-SDK",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Source SDK version.",
+                "key": "SmileID-Source-SDK-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                "key": "SmileID-Timestamp",
+                "value": "<dateTime>"
+              },
+              {
+                "disabled": false,
+                "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                "key": "SmileID-Request-Signature",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                "key": "User-ID",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "country",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code (uppercase)."
+                },
+                {
+                  "key": "id_type",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE)."
+                },
+                {
+                  "key": "id_number",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) ID document number. Must match the regex format for the country/id_type."
+                },
+                {
+                  "key": "user_details",
+                  "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                  "type": "text",
+                  "description": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided."
+                },
+                {
+                  "key": "consent",
+                  "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "callback_url",
+                  "value": "<uri>",
+                  "type": "text",
+                  "description": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list."
+                },
+                {
+                  "key": "bank_code",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Bank code (required for certain ID types like BANK_ACCOUNT)."
+                },
+                {
+                  "key": "operator",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Telecom operator (required for certain ID types)."
+                },
+                {
+                  "key": "partner_params",
+                  "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                  "type": "text",
+                  "description": "Arbitrary key-value metadata for partner reference."
+                },
+                {
+                  "key": "metadata",
+                  "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                  "type": "text",
+                  "description": "Additional metadata entries."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c2c1c2b0-bbc9-42d8-862b-258fd08c1473",
+              "name": "Accepted — verification submitted for async processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Accepted\",\n  \"message\": \"string\",\n  \"job_id\": \"string\",\n  \"user_id\": \"string\",\n  \"created_at\": \"1964-01-07T02:34:15.285Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cfabffcb-3f2c-4322-8632-8094793bab47",
+              "name": "Bad Request — validation error in request body or headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ac8b855-454d-447e-b1cf-ba74d30501bc",
+              "name": "Unauthorized — invalid or missing authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1c219555-ad4e-489d-a68a-5754c1d3c20e",
+              "name": "Payment Required — insufficient wallet balance.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42201ca4-3d98-4f60-8342-fc2ca447a0a8",
+              "name": "Forbidden — partner not authorized for this product, ID type, or IP.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42caa693-827f-407f-8eff-7220010311b4",
+              "name": "Content Too Large — an uploaded file exceeds the size limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c288a934-a4df-46c2-bfb5-aacdbe4d6c24",
+              "name": "Unsupported Media Type — request must be multipart/form-data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2a796d7-34c3-4674-923b-bd36c5fd3ce2",
+              "name": "Too Many Requests — rate limit exceeded for this ID number.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72230a5f-1499-4c4b-a49a-b3281763ada7",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "enhanced_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Bank code (required for certain ID types like BANK_ACCOUNT).",
+                        "type": "text/plain"
+                      },
+                      "key": "bank_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Telecom operator (required for certain ID types).",
+                        "type": "text/plain"
+                      },
+                      "key": "operator",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries.",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smileidentity.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "SmileID-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9e14f011-25ee-4ca0-9197-32b96073dd12",
+    "name": "Smile ID V3 Authentication Enhanced KYC API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).\n\nContact Support:\n Name: Smile ID Support",
+      "type": "text/plain"
+    }
+  }
+}

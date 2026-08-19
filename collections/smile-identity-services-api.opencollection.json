@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Services API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List bank codes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smileidentity.com/v3/services/bank_codes"
+          },
+          "docs": "Returns a list of bank codes supported for bank-account-based identity\nverification. Optionally filtered by country.\n"
+        },
+        {
+          "info": {
+            "name": "List supported KYC ID types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smileidentity.com/v3/services/supported_id_types"
+          },
+          "docs": "Returns a list of all KYC ID types supported for identity verification,\nincluding their validation regex, required fields, and optional bank code.\nOptionally filtered by country.\n"
+        },
+        {
+          "info": {
+            "name": "Get ID type availability status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smileidentity.com/v3/services/id_status",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-1 alpha-2 country code or full country name (e.g. \"NG\" or \"Nigeria\")."
+              },
+              {
+                "name": "id_type",
+                "value": "",
+                "type": "query",
+                "description": "The ID type code to check status for (e.g. \"BVN\", \"NIN\", \"VOTER_ID\")."
+              }
+            ]
+          },
+          "docs": "Returns the current availability and success rate for a specific ID type\nin a given country, based on uptime data from the last hour.\n\nRequires authentication via JWT token.\n"
+        },
+        {
+          "info": {
+            "name": "List supported documents for verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smileidentity.com/v3/services/supported_documents",
+            "params": [
+              {
+                "name": "continent",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to a single continent."
+              },
+              {
+                "name": "country_code",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to a single country. Must be an ISO 3166-1 alpha-2 code\n(two uppercase letters).\n"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale for document names. Defaults to `en-GB`.\nSupported values: `en-GB`, `fr-FR`, `ar-EG`.\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of supported document types for identity verification across all\ncountries served by Smile Identity.\n\nThe response can be filtered by continent or country code. An optional `locale`\nparameter controls the language of document names.\n\nThis endpoint does not require authentication. It is an alias of\n`GET /v1/valid_documents` and `GET /v3/valid-documents`.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

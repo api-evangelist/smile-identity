@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Biometric KYC API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Biometric KYC",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit Biometric KYC verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smileidentity.com/v3/biometric_kyc",
+            "headers": [
+              {
+                "name": "SmileID-Partner-ID",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK-Version",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Timestamp",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Request-Signature",
+                "value": ""
+              },
+              {
+                "name": "User-ID",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Combines biometric selfie verification with KYC identity checks against the relevant ID authority. The selfie and liveness images are uploaded alongside identity details (country, id_type, id_number), validated at entry, then processed asynchronously. Results are delivered via callback URL."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

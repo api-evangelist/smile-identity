@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Users API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Flag or clear fraud status for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smileidentity.com/v3/users/:user_id/report_fraud",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Records a fraud report (or fraud-clearance) for a previously enrolled\nuser.\n\nUse `is_fraud: true` to flag a user as fraudulent, or `is_fraud: false`\nto clear a previous flag. Flagging propagates the user's face, device,\nand biometric clusters to the relevant block lists so that subsequent\nverifications matching them are rejected. Clearing the flag reverses\nthese effects.\n\nThe response is `202 Accepted` once the request has been validated\nand handled.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

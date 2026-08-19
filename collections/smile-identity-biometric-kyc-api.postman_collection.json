@@ -1,0 +1,1862 @@
+{
+  "item": [
+    {
+      "id": "d35b72ec-2e0d-4eee-856e-557c8adb66de",
+      "name": "Biometric KYC",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1381246e-d4d9-4f20-8dd9-ce2cace83f99",
+          "name": "Submit Biometric KYC verification",
+          "request": {
+            "name": "Submit Biometric KYC verification",
+            "description": {
+              "content": "Combines biometric selfie verification with KYC identity checks against the relevant ID authority. The selfie and liveness images are uploaded alongside identity details (country, id_type, id_number), validated at entry, then processed asynchronously. Results are delivered via callback URL.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "biometric_kyc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                "key": "SmileID-Partner-ID",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Source SDK identifier.",
+                "key": "SmileID-Source-SDK",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Source SDK version.",
+                "key": "SmileID-Source-SDK-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                "key": "SmileID-Timestamp",
+                "value": "<dateTime>"
+              },
+              {
+                "disabled": false,
+                "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                "key": "SmileID-Request-Signature",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                "key": "User-ID",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "selfie_image",
+                  "type": "file",
+                  "contentType": "image/jpeg",
+                  "description": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo."
+                },
+                {
+                  "key": "liveness_images",
+                  "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                  "type": "text",
+                  "contentType": "image/jpeg",
+                  "description": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification."
+                },
+                {
+                  "key": "consent",
+                  "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "country",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code (uppercase)."
+                },
+                {
+                  "key": "id_type",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE)."
+                },
+                {
+                  "key": "id_number",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) ID document number. Must match the regex format for the country/id_type."
+                },
+                {
+                  "key": "user_details",
+                  "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                  "type": "text",
+                  "description": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided."
+                },
+                {
+                  "key": "callback_url",
+                  "value": "<uri>",
+                  "type": "text",
+                  "description": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list."
+                },
+                {
+                  "key": "sandbox_result",
+                  "value": "<number>",
+                  "type": "text",
+                  "description": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode."
+                },
+                {
+                  "key": "partner_params",
+                  "value": "{\"key_0\":\"<string>\"}",
+                  "type": "text",
+                  "description": "Arbitrary key-value metadata for partner reference."
+                },
+                {
+                  "key": "metadata",
+                  "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                  "type": "text",
+                  "description": "Additional metadata entries (e.g., SDK telemetry, device info)."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c21f76fa-d0dc-4b27-aacf-c2e241f639e1",
+              "name": "Accepted — verification submitted for async processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Accepted\",\n  \"message\": \"string\",\n  \"job_id\": \"string\",\n  \"user_id\": \"string\",\n  \"created_at\": \"1977-07-24T00:50:58.750Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fba4313-7d4b-4e8d-b493-913d4a115cd1",
+              "name": "Bad Request — validation error in request body or headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f9b43b7-b93d-4418-8acd-24ab30352dbc",
+              "name": "Unauthorized — invalid or missing authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71d67550-7ac1-4234-998f-e5c56aa91082",
+              "name": "Payment Required — insufficient wallet balance.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3219fed7-4e7e-4b3f-b4d8-49deaf2fe6bd",
+              "name": "Forbidden — partner not authorized for this product, ID type, or IP.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3284886a-3175-43ff-a10e-4e0b57acc2af",
+              "name": "Content Too Large — an uploaded file exceeds the size limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e8ce1cd-412f-4a4e-8286-82107ab3a381",
+              "name": "Unsupported Media Type — request must be multipart/form-data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ed1cfa39-cb2c-4a97-b88f-bd4c2c611597",
+              "name": "Too Many Requests — rate limit exceeded for this ID number.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c13bd56-50a2-4596-a872-873a46136a48",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "biometric_kyc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Partner identifier (numeric, 3+ digits).",
+                    "key": "SmileID-Partner-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body, computed with your SDK/partner secret and the value of SmileID-Timestamp as salt. Required when your Smile ID account is configured to use SDK/partner secret HMAC authentication.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier. If omitted, a TypeID is generated automatically.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) JPEG selfie image used for biometric verification. Must be a clear, well-lit, front-facing photo.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Array of JPEG liveness sequence images captured during the liveness check. These images are used for passive and active liveness verification.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ISO 3166-1 alpha-2 country code (uppercase).",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document type (e.g., NIN, BVN, DRIVERS_LICENSE).",
+                        "type": "text/plain"
+                      },
+                      "key": "id_type",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ID document number. Must match the regex format for the country/id_type.",
+                        "type": "text/plain"
+                      },
+                      "key": "id_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback. Falls back to partner default if omitted. Must be on the partner's allowed callback domains list.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox/test environments. Only effective when the partner account is in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Arbitrary key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Additional metadata entries (e.g., SDK telemetry, device info).",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smileidentity.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "SmileID-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d08bf51f-08b2-4a75-865e-a849f8254dcd",
+    "name": "Smile ID V3 Authentication Biometric KYC API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).\n\nContact Support:\n Name: Smile ID Support",
+      "type": "text/plain"
+    }
+  }
+}

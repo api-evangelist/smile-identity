@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Biometric Enrollment API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Biometric Enrollment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit biometric enrollment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smileidentity.com/v3/registration",
+            "headers": [
+              {
+                "name": "SmileID-Source-SDK",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK-Version",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Timestamp",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Request-Signature",
+                "value": ""
+              },
+              {
+                "name": "User-ID",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Enrolls a user's biometric selfie for future authentication. The selfie and liveness images are uploaded, validated at entry, then processed asynchronously (passive liveness, active liveness). Results are delivered via callback URL."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

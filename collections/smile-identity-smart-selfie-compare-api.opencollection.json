@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Smart Selfie Compare API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Smart Selfie Compare",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit smart selfie compare",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smileidentity.com/v3/compare",
+            "headers": [
+              {
+                "name": "SmileID-Source-SDK",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK-Version",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Timestamp",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Request-Signature",
+                "value": ""
+              },
+              {
+                "name": "User-ID",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Compares a selfie image against a provided comparison image (document, ID photo, or portrait). The images are uploaded, validated at entry, then queued for async ML processing (passive liveness, face matching, optional active liveness with liveness images). Results are delivered via callback URL.\nIf `user_id` is provided and the comparison passes, the user will be enrolled."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

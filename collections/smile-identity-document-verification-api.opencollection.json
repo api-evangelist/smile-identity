@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Document Verification API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Document Verification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit Document Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smileidentity.com/v3/document_verification",
+            "headers": [
+              {
+                "name": "SmileID-Partner-ID",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK-Version",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Timestamp",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Request-Signature",
+                "value": ""
+              },
+              {
+                "name": "User-ID",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Verifies a user's identity by comparing a selfie against a document image. The selfie and liveness images are uploaded alongside a document photo (front, and optionally back). The id_type is optional — the document type is auto-classified if not provided. Results are delivered asynchronously via callback URL."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

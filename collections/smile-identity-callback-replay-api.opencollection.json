@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Callback Replay API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Callback Replay",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Replay a callback for a completed verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smileidentity.com/v3/replay/:job_id",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "TypeID format verification identifier with 'job_' prefix."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Looks up a previously completed verification by its TypeID, resolves the callback URL, and re-sends the callback. The verification must have reached a terminal state (clear, block, attention, or error) before its callback can be replayed.\nAn optional `callback_url` in the request body overrides the stored URL, subject to the partner's callback domain allowlist."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

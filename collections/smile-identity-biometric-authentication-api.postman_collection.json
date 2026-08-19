@@ -1,0 +1,1545 @@
+{
+  "item": [
+    {
+      "id": "3d04f19c-61bd-4346-8262-83d25d4af2fb",
+      "name": "Biometric Authentication",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "90c6d0e5-08aa-4980-88f5-eaba8785ecaa",
+          "name": "Submit biometric authentication",
+          "request": {
+            "name": "Submit biometric authentication",
+            "description": {
+              "content": "Authenticates a user by comparing a submitted selfie against their enrolled image. The selfie and liveness images are uploaded, validated at entry, then queued for async ML processing (passive liveness, active liveness, face matching). Results are delivered via callback URL.\nSupports `use_enrolled_image: true` to skip selfie/liveness upload and re-use the enrolled image for the comparison (useful for server-side re-verification).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "authentication"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Source SDK identifier.",
+                "key": "SmileID-Source-SDK",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Source SDK version.",
+                "key": "SmileID-Source-SDK-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                "key": "SmileID-Timestamp",
+                "value": "<dateTime>"
+              },
+              {
+                "disabled": false,
+                "description": "HMAC signature of the raw HTTP request body.",
+                "key": "SmileID-Request-Signature",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Partner-provided user identifier override.",
+                "key": "User-ID",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "user_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) The enrolled user's identifier. Must match an existing enrollee."
+                },
+                {
+                  "key": "consent",
+                  "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "user_details",
+                  "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                  "type": "text",
+                  "description": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided."
+                },
+                {
+                  "key": "selfie_image",
+                  "type": "file",
+                  "contentType": "image/jpeg",
+                  "description": "JPEG selfie image for authentication. Required unless use_enrolled_image is true."
+                },
+                {
+                  "key": "liveness_images",
+                  "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                  "type": "text",
+                  "contentType": "image/jpeg",
+                  "description": "Array of JPEG liveness images. Required unless use_enrolled_image is true."
+                },
+                {
+                  "key": "use_enrolled_image",
+                  "value": "false",
+                  "type": "text",
+                  "description": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication."
+                },
+                {
+                  "key": "callback_url",
+                  "value": "<uri>",
+                  "type": "text",
+                  "description": "URL to receive the async result callback."
+                },
+                {
+                  "key": "sandbox_result",
+                  "value": "<number>",
+                  "type": "text",
+                  "description": "Force a specific result code in sandbox mode."
+                },
+                {
+                  "key": "partner_params",
+                  "value": "{\"key_0\":\"<string>\"}",
+                  "type": "text",
+                  "description": ""
+                },
+                {
+                  "key": "metadata",
+                  "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                  "type": "text",
+                  "description": ""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "34f178bc-39da-4916-a63d-111e9f9d7ca7",
+              "name": "Accepted — job queued for async processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier override.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The enrolled user's identifier. Must match an existing enrollee.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JPEG selfie image for authentication. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "Array of JPEG liveness images. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.",
+                        "type": "text/plain"
+                      },
+                      "key": "use_enrolled_image",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\",\"key_2\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"Accepted\",\n  \"message\": \"string\",\n  \"job_id\": \"string\",\n  \"user_id\": \"string\",\n  \"created_at\": \"2018-08-17T21:13:15.195Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8a920b6-bfa2-42f4-98d0-779603531d21",
+              "name": "Bad Request — validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier override.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The enrolled user's identifier. Must match an existing enrollee.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JPEG selfie image for authentication. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "Array of JPEG liveness images. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.",
+                        "type": "text/plain"
+                      },
+                      "key": "use_enrolled_image",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5b40b9b-604b-4801-8a61-ea9c44209370",
+              "name": "Unauthorized — invalid or missing authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier override.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The enrolled user's identifier. Must match an existing enrollee.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JPEG selfie image for authentication. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "Array of JPEG liveness images. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.",
+                        "type": "text/plain"
+                      },
+                      "key": "use_enrolled_image",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fdeb4af-ef10-485d-b4fe-ddeec7225597",
+              "name": "Payment Required — insufficient wallet balance.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier override.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The enrolled user's identifier. Must match an existing enrollee.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JPEG selfie image for authentication. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "Array of JPEG liveness images. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.",
+                        "type": "text/plain"
+                      },
+                      "key": "use_enrolled_image",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a79aa8bb-adcd-4896-a208-30228c3dc28a",
+              "name": "Forbidden — partner not authorized for this product or IP.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier override.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The enrolled user's identifier. Must match an existing enrollee.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JPEG selfie image for authentication. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "Array of JPEG liveness images. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.",
+                        "type": "text/plain"
+                      },
+                      "key": "use_enrolled_image",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f8695d68-68e5-4b49-ba34-867311b1b321",
+              "name": "Unsupported Media Type — request must be multipart/form-data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier override.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The enrolled user's identifier. Must match an existing enrollee.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JPEG selfie image for authentication. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "Array of JPEG liveness images. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.",
+                        "type": "text/plain"
+                      },
+                      "key": "use_enrolled_image",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c098d74e-b3de-431e-9f18-00795dce542b",
+              "name": "Too Many Requests — rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier override.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The enrolled user's identifier. Must match an existing enrollee.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JPEG selfie image for authentication. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "Array of JPEG liveness images. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.",
+                        "type": "text/plain"
+                      },
+                      "key": "use_enrolled_image",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc834a25-33b5-467c-bb28-d5f6e368e21d",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK identifier.",
+                    "key": "SmileID-Source-SDK",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Source SDK version.",
+                    "key": "SmileID-Source-SDK-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "ISO 8601 timestamp used as the salt when computing SmileID-Request-Signature.",
+                    "key": "SmileID-Timestamp",
+                    "value": "<dateTime>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "HMAC signature of the raw HTTP request body.",
+                    "key": "SmileID-Request-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Partner-provided user identifier override.",
+                    "key": "User-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The enrolled user's identifier. Must match an existing enrollee.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "consent",
+                      "value": "{\"granted\":\"<boolean>\",\"granted_at\":\"<dateTime>\",\"notice_language\":\"<string>\",\"notice_privacy_policy_url\":\"<uri>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Consumer-stated PII fields for the user. Either email or phone_number must be provided.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_details",
+                      "value": "{\"given_names\":\"<string>\",\"last_name\":\"<string>\",\"email\":\"<email>\",\"phone_number\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JPEG selfie image for authentication. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "selfie_image",
+                      "value": "<binary>",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "Array of JPEG liveness images. Required unless use_enrolled_image is true.",
+                        "type": "text/plain"
+                      },
+                      "key": "liveness_images",
+                      "value": "[\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\",\"<binary>\"]",
+                      "type": "text",
+                      "contentType": "image/jpeg"
+                    },
+                    {
+                      "description": {
+                        "content": "If true, skips selfie and liveness image upload and uses the enrolled image for re-verification. Useful for server-side re-authentication.",
+                        "type": "text/plain"
+                      },
+                      "key": "use_enrolled_image",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "URL to receive the async result callback.",
+                        "type": "text/plain"
+                      },
+                      "key": "callback_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Force a specific result code in sandbox mode.",
+                        "type": "text/plain"
+                      },
+                      "key": "sandbox_result",
+                      "value": "<number>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\",\"key_1\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "[{\"name\":\"<string>\",\"value\":\"<string>\"},{\"name\":\"<string>\",\"value\":\"<string>\"}]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smileidentity.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "SmileID-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "eb1acbc0-8d6c-4ab4-a3b3-3e6058bc2d38",
+    "name": "Smile ID V3 Authentication Biometric Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).\n\nContact Support:\n Name: Smile ID Support",
+      "type": "text/plain"
+    }
+  }
+}

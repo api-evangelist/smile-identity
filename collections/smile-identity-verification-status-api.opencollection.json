@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Verification Status API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Verification Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get verification status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smileidentity.com/v3/status/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "TypeID format verification identifier with 'job_' prefix."
+              }
+            ]
+          },
+          "docs": "Retrieves the current status of a previously submitted verification. Returns the latest state from the verification lifecycle (processing, clear, block, attention, error)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

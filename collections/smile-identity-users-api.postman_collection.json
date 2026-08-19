@@ -1,0 +1,786 @@
+{
+  "item": [
+    {
+      "id": "f45dffc5-9a2f-4fa1-8d35-ee6fd041d182",
+      "name": "Users",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f4f3942f-6023-49a3-b531-d2596a8a859d",
+          "name": "Flag or clear fraud status for a user",
+          "request": {
+            "name": "Flag or clear fraud status for a user",
+            "description": {
+              "content": "Records a fraud report (or fraud-clearance) for a previously enrolled\nuser.\n\nUse `is_fraud: true` to flag a user as fraudulent, or `is_fraud: false`\nto clear a previous flag. Flagging propagates the user's face, device,\nand biometric clusters to the relevant block lists so that subsequent\nverifications matching them are rejected. Clearing the flag reverses\nthese effects.\n\nThe response is `202 Accepted` once the request has been validated\nand handled.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "users",
+                ":user_id",
+                "report_fraud"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "user_id",
+                  "description": "(Required) The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "is_fraud",
+                  "value": "<boolean>",
+                  "type": "text",
+                  "description": "(Required) `true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n"
+                },
+                {
+                  "key": "reported_by",
+                  "value": "<email>",
+                  "type": "text",
+                  "description": "(Required) Email address of the person submitting the report."
+                },
+                {
+                  "key": "reason",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n (This can only be one of FIRST_PARTY_FRAUD,SECOND_PARTY_FRAUD,THIRD_PARTY_FRAUD,SYNTHETIC_IDENTITY,ACCOUNT_TAKEOVER,DOCUMENT_FORGERY,IDENTITY_FARMING,MULE_ACCOUNT,OTHER)"
+                },
+                {
+                  "key": "notes",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "681297bb-7210-4fdb-9593-601fded31f37",
+              "name": "Fraud report accepted and queued for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    ":user_id",
+                    "report_fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) `true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "is_fraud",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Email address of the person submitting the report.",
+                        "type": "text/plain"
+                      },
+                      "key": "reported_by",
+                      "value": "<email>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n (This can only be one of FIRST_PARTY_FRAUD,SECOND_PARTY_FRAUD,THIRD_PARTY_FRAUD,SYNTHETIC_IDENTITY,ACCOUNT_TAKEOVER,DOCUMENT_FORGERY,IDENTITY_FARMING,MULE_ACCOUNT,OTHER)",
+                        "type": "text/plain"
+                      },
+                      "key": "reason",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "notes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"accepted\",\n  \"user_id\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b839e909-8aaa-4f88-98df-0b4e792255b1",
+              "name": "Validation error. Possible causes:\n- `user_id` path parameter is missing.\n- `is_fraud` is missing or not a boolean.\n- `reason` is missing when `is_fraud` is `true`, or is not one of\n  the allowed values.\n- `notes` is missing when `is_fraud` is `false` or `reason` is\n  `OTHER`.\n- `notes` exceeds 500 characters.\n- `reported_by` is missing or is not a valid email address.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    ":user_id",
+                    "report_fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) `true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "is_fraud",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Email address of the person submitting the report.",
+                        "type": "text/plain"
+                      },
+                      "key": "reported_by",
+                      "value": "<email>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n (This can only be one of FIRST_PARTY_FRAUD,SECOND_PARTY_FRAUD,THIRD_PARTY_FRAUD,SYNTHETIC_IDENTITY,ACCOUNT_TAKEOVER,DOCUMENT_FORGERY,IDENTITY_FARMING,MULE_ACCOUNT,OTHER)",
+                        "type": "text/plain"
+                      },
+                      "key": "reason",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "notes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0cef64e-655c-4f56-be8a-d56a942dc70c",
+              "name": "Authentication failed (invalid or missing token).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    ":user_id",
+                    "report_fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) `true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "is_fraud",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Email address of the person submitting the report.",
+                        "type": "text/plain"
+                      },
+                      "key": "reported_by",
+                      "value": "<email>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n (This can only be one of FIRST_PARTY_FRAUD,SECOND_PARTY_FRAUD,THIRD_PARTY_FRAUD,SYNTHETIC_IDENTITY,ACCOUNT_TAKEOVER,DOCUMENT_FORGERY,IDENTITY_FARMING,MULE_ACCOUNT,OTHER)",
+                        "type": "text/plain"
+                      },
+                      "key": "reason",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "notes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e8e5c8d-5819-4572-ba6a-60965dec35af",
+              "name": "Access denied. Possible causes:\n- IP address is on the blocklist.\n- IP not in partner's allowlist.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    ":user_id",
+                    "report_fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) `true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "is_fraud",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Email address of the person submitting the report.",
+                        "type": "text/plain"
+                      },
+                      "key": "reported_by",
+                      "value": "<email>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n (This can only be one of FIRST_PARTY_FRAUD,SECOND_PARTY_FRAUD,THIRD_PARTY_FRAUD,SYNTHETIC_IDENTITY,ACCOUNT_TAKEOVER,DOCUMENT_FORGERY,IDENTITY_FARMING,MULE_ACCOUNT,OTHER)",
+                        "type": "text/plain"
+                      },
+                      "key": "reason",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "notes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8516b5c-c00f-47fb-aa26-916d24428ef3",
+              "name": "No enrollee found for the given `user_id` and partner.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    ":user_id",
+                    "report_fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) `true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "is_fraud",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Email address of the person submitting the report.",
+                        "type": "text/plain"
+                      },
+                      "key": "reported_by",
+                      "value": "<email>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n (This can only be one of FIRST_PARTY_FRAUD,SECOND_PARTY_FRAUD,THIRD_PARTY_FRAUD,SYNTHETIC_IDENTITY,ACCOUNT_TAKEOVER,DOCUMENT_FORGERY,IDENTITY_FARMING,MULE_ACCOUNT,OTHER)",
+                        "type": "text/plain"
+                      },
+                      "key": "reason",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "notes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0be507da-6242-4e9a-b0d3-a05b55b8e13e",
+              "name": "Wrong or missing `Content-Type` header. The request body must be\nsent as `multipart/form-data`.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    ":user_id",
+                    "report_fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) `true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "is_fraud",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Email address of the person submitting the report.",
+                        "type": "text/plain"
+                      },
+                      "key": "reported_by",
+                      "value": "<email>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n (This can only be one of FIRST_PARTY_FRAUD,SECOND_PARTY_FRAUD,THIRD_PARTY_FRAUD,SYNTHETIC_IDENTITY,ACCOUNT_TAKEOVER,DOCUMENT_FORGERY,IDENTITY_FARMING,MULE_ACCOUNT,OTHER)",
+                        "type": "text/plain"
+                      },
+                      "key": "reason",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "notes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f3f0aa1-18d2-4043-a5cc-101e3ffe9625",
+              "name": "Unexpected server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    ":user_id",
+                    "report_fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) The partner-scoped user identifier of the enrolled user being\nreported. This is the `user_id` value originally provided during\nenrollment.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) `true` to flag the user as fraudulent, `false` to clear a previous\nfraud flag.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "is_fraud",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Email address of the person submitting the report.",
+                        "type": "text/plain"
+                      },
+                      "key": "reported_by",
+                      "value": "<email>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Reason for the fraud report. **Required when `is_fraud` is `true`**;\nignored when `is_fraud` is `false`. If `OTHER` is selected, `notes`\nbecomes required.\n (This can only be one of FIRST_PARTY_FRAUD,SECOND_PARTY_FRAUD,THIRD_PARTY_FRAUD,SYNTHETIC_IDENTITY,ACCOUNT_TAKEOVER,DOCUMENT_FORGERY,IDENTITY_FARMING,MULE_ACCOUNT,OTHER)",
+                        "type": "text/plain"
+                      },
+                      "key": "reason",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Free-form notes describing the fraud report. **Required when**\neither `is_fraud` is `false` or `reason` is `OTHER`. Optional in\nall other cases. Capped at 500 characters.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "notes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smileidentity.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "SmileID-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "962075a2-28f8-4a6a-b00c-b1664bec34a5",
+    "name": "Smile ID V3 Authentication Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).\n\nContact Support:\n Name: Smile ID Support",
+      "type": "text/plain"
+    }
+  }
+}

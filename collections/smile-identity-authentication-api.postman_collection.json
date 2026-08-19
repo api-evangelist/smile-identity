@@ -1,0 +1,559 @@
+{
+  "item": [
+    {
+      "id": "e0749847-8422-49ee-bdc5-3dfd119f9f06",
+      "name": "Authentication",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "05519e6a-95a1-4a11-b0c1-531190108d4a",
+          "name": "Generate v3 Auth Token",
+          "request": {
+            "name": "Generate v3 Auth Token",
+            "description": {
+              "content": "Issues a short-lived JWT for authenticating subsequent v3 API requests.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Your unique partner identifier. Must be numeric with no leading zeros.",
+                "key": "smileid-partner-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Your partner API key for authentication.",
+                "key": "smileid-api-key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "user_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Optional partner-provided user identifier."
+                },
+                {
+                  "key": "partner_params",
+                  "value": "{\"key_0\":\"<string>\"}",
+                  "type": "text",
+                  "description": "Key-value metadata for partner reference."
+                },
+                {
+                  "key": "product",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The product or service the token will be used for. (This can only be one of aml,basic_kyc,one_time_aml,biometric_kyc,address_verification,document_verification,enhanced_document_verification,enhanced_kyc,phone_number_verification,smart_selfie_authentication,smart_selfie_registration,smart_selfie_compare)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ccd5d4a4-178e-4599-8ec3-a396bba4e0b1",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your unique partner identifier. Must be numeric with no leading zeros.",
+                    "key": "smileid-partner-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your partner API key for authentication.",
+                    "key": "smileid-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Optional partner-provided user identifier.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The product or service the token will be used for. (This can only be one of aml,basic_kyc,one_time_aml,biometric_kyc,address_verification,document_verification,enhanced_document_verification,enhanced_kyc,phone_number_verification,smart_selfie_authentication,smart_selfie_registration,smart_selfie_compare)",
+                        "type": "text/plain"
+                      },
+                      "key": "product",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d9e251f-4e50-4dfd-b355-95f553da7782",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your unique partner identifier. Must be numeric with no leading zeros.",
+                    "key": "smileid-partner-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your partner API key for authentication.",
+                    "key": "smileid-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Optional partner-provided user identifier.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The product or service the token will be used for. (This can only be one of aml,basic_kyc,one_time_aml,biometric_kyc,address_verification,document_verification,enhanced_document_verification,enhanced_kyc,phone_number_verification,smart_selfie_authentication,smart_selfie_registration,smart_selfie_compare)",
+                        "type": "text/plain"
+                      },
+                      "key": "product",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89754750-c5e6-4c6a-81a5-0f3ec2325ddd",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your unique partner identifier. Must be numeric with no leading zeros.",
+                    "key": "smileid-partner-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your partner API key for authentication.",
+                    "key": "smileid-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Optional partner-provided user identifier.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The product or service the token will be used for. (This can only be one of aml,basic_kyc,one_time_aml,biometric_kyc,address_verification,document_verification,enhanced_document_verification,enhanced_kyc,phone_number_verification,smart_selfie_authentication,smart_selfie_registration,smart_selfie_compare)",
+                        "type": "text/plain"
+                      },
+                      "key": "product",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4cc3629a-b08e-459b-a06d-bed213e73c42",
+              "name": "Unsupported Media Type — request body, if provided, must be multipart/form-data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your unique partner identifier. Must be numeric with no leading zeros.",
+                    "key": "smileid-partner-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your partner API key for authentication.",
+                    "key": "smileid-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Optional partner-provided user identifier.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The product or service the token will be used for. (This can only be one of aml,basic_kyc,one_time_aml,biometric_kyc,address_verification,document_verification,enhanced_document_verification,enhanced_kyc,phone_number_verification,smart_selfie_authentication,smart_selfie_registration,smart_selfie_compare)",
+                        "type": "text/plain"
+                      },
+                      "key": "product",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e577e85e-190f-460d-8b35-6ef4c632c773",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "SmileID-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your unique partner identifier. Must be numeric with no leading zeros.",
+                    "key": "smileid-partner-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Your partner API key for authentication.",
+                    "key": "smileid-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Optional partner-provided user identifier.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Key-value metadata for partner reference.",
+                        "type": "text/plain"
+                      },
+                      "key": "partner_params",
+                      "value": "{\"key_0\":\"<string>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The product or service the token will be used for. (This can only be one of aml,basic_kyc,one_time_aml,biometric_kyc,address_verification,document_verification,enhanced_document_verification,enhanced_kyc,phone_number_verification,smart_selfie_authentication,smart_selfie_registration,smart_selfie_compare)",
+                        "type": "text/plain"
+                      },
+                      "key": "product",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smileidentity.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "SmileID-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0c64e28c-68a0-4953-9ee4-53a466697a09",
+    "name": "Smile ID V3 Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).\n\nContact Support:\n Name: Smile ID Support",
+      "type": "text/plain"
+    }
+  }
+}

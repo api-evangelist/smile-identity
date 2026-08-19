@@ -2,10 +2,9 @@ generated: '2026-07-21'
 method: derived
 status: candidate
 source: openapi/smile-identity-v3-openapi.json
-notes: >-
-  No official hosted/remote Smile ID MCP server was found (docs, npm
-  @modelcontextprotocol, MCP registries). The tool list below is a CANDIDATE
-  derived one-to-one from the V3 OpenAPI operations, for building an MCP wrapper.
+notes: No official hosted/remote Smile ID MCP server was found (docs, npm @modelcontextprotocol, MCP registries).
+  The tool list below is a CANDIDATE derived one-to-one from the V3 OpenAPI operations, for building an
+  MCP wrapper.
 server:
   name: smile-identity
   transport: http
@@ -55,3 +54,9 @@ tools:
 - name: get_verification_status
   description: Retrieve a verification result by job id.
   source_operation: openapi/smile-identity-v3-openapi.json#getVerificationStatus
+deployment:
+  mode: none
+  verified: derived
+  tools: 15
+  checked: '2026-08-12'
+  source: catalog MCP census

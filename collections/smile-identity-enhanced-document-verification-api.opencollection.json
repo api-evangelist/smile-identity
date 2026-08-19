@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile ID V3 Authentication Enhanced Document Verification API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "SmileID-Token",
+      "value": "{{SmileID-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Enhanced Document Verification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit Enhanced Document Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smileidentity.com/v3/enhanced_document_verification",
+            "headers": [
+              {
+                "name": "SmileID-Partner-ID",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Source-SDK-Version",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Timestamp",
+                "value": ""
+              },
+              {
+                "name": "SmileID-Request-Signature",
+                "value": ""
+              },
+              {
+                "name": "User-ID",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Verifies a user's identity by comparing a selfie against a document image and cross-referencing extracted data for additional verification. The selfie and liveness images are uploaded alongside a document photo (front, and optionally back). The id_type is required for this endpoint. Results are delivered asynchronously via callback URL."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
