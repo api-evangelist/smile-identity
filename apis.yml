@@ -185,6 +185,8 @@ apis:
   humanURL: https://docs.usesmileid.com/api-reference
   baseURL: https://api.smileidentity.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
