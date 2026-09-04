@@ -32,15 +32,18 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: unknown
-  onboarding: self-serve
+  onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Unknown
+  confidence: low
   source:
   - authentication
-  generated: '2026-07-22'
+  - security
+  - sandbox
+  - {url: 'https://usesmileid.com', status: 301, note: 'declared website redirects to https://smile.id/ — a different registrable domain (usesmileid.com -> smile.id), possible rename or acquisition (probed 2026-09-03, roadmap#169)'}
+  generated: '2026-09-03'
   method: derived
 image: https://cdn.prod.website-files.com/69cecfcd51ce55fce000c092/6a198a55c9d40279f94b33a4_Smile-Favicon.png
 specificationVersion: '0.23'
@@ -275,8 +278,9 @@ common:
   url: data-model/smile-identity-data-model.yml
 - type: ChangeLog
   url: changelog/smile-identity-changelog.yml
-- type: MCPServer
+- type: X-MCPServerCandidate
   url: mcp/smile-identity-mcp.yml
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
 - type: AgenticAccess
   url: agentic-access/smile-identity-agentic-access.yml
 - type: AgentSkill
