@@ -1,18 +1,7 @@
 {
   "provider": "smile-identity",
   "sources": [
-    "smile-identity-authentication-api-openapi.yml",
-    "smile-identity-biometric-authentication-api-openapi.yml",
-    "smile-identity-biometric-enrollment-api-openapi.yml",
-    "smile-identity-biometric-kyc-api-openapi.yml",
-    "smile-identity-callback-replay-api-openapi.yml",
-    "smile-identity-document-verification-api-openapi.yml",
-    "smile-identity-enhanced-document-verification-api-openapi.yml",
-    "smile-identity-enhanced-kyc-api-openapi.yml",
-    "smile-identity-services-api-openapi.yml",
-    "smile-identity-smart-selfie-compare-api-openapi.yml",
-    "smile-identity-users-api-openapi.yml",
-    "smile-identity-verification-status-api-openapi.yml"
+    "_original/smile-identity-v3-openapi.json"
   ],
   "outputs": [
     "smile-identity-authentication-api-openapi.yml",
@@ -30,12 +19,29 @@
   ],
   "archived": [],
   "errors": [
-    "smile-identity-services-api-openapi.yml: dangling $ref: #/components/parameters/CountryFilter",
-    "smile-identity-verification-status-api-openapi.yml: dangling $ref: #/components/headers/ApiVersion",
-    "smile-identity-verification-status-api-openapi.yml: dangling $ref: #/components/headers/JobId",
-    "smile-identity-verification-status-api-openapi.yml: dangling $ref: #/components/headers/UserId"
+    "smile-identity-v3-openapi.json: dangling $ref: #/components/headers/ApiVersion",
+    "smile-identity-v3-openapi.json: dangling $ref: #/components/headers/JobId",
+    "smile-identity-v3-openapi.json: dangling $ref: #/components/headers/UserId",
+    "smile-identity-v3-openapi.json: dangling $ref: #/components/parameters/CountryFilter"
   ],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "smile-identity-v3-openapi.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "smile-identity-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-biometric-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-biometric-enrollment-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-biometric-kyc-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-callback-replay-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-document-verification-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-enhanced-document-verification-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-enhanced-kyc-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-services-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-smart-selfie-compare-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-identity-verification-status-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

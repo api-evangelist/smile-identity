@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Smile ID V3 Authentication Enhanced KYC API
+  title: Smile ID V3 Enhanced KYC API
   version: 1.0.0
   description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
   contact:
@@ -120,6 +120,22 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    AcceptedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - Accepted
+        message:
+          type: string
+        job_id:
+          type: string
+        user_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     Consent:
       type: object
       required:
@@ -143,22 +159,6 @@ components:
         notice_privacy_policy_url:
           type: string
           format: uri
-    AcceptedResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - Accepted
-        message:
-          type: string
-        job_id:
-          type: string
-        user_id:
-          type: string
-        created_at:
-          type: string
-          format: date-time
     EnhancedKycRequest:
       type: object
       required:
@@ -195,14 +195,16 @@ components:
               minLength: 1
               description: Last name / surname of the individual.
             email:
-              type: string
+              type:
+              - string
+              - 'null'
               format: email
-              nullable: true
               description: Email address. At least one of email or phone_number is required.
             phone_number:
-              type: string
+              type:
+              - string
+              - 'null'
               pattern: ^\+[1-9]\d{6,14}$
-              nullable: true
               description: Phone number in E.164 format (must start with +). At least one of email or phone_number is required.
         consent:
           $ref: '#/components/schemas/Consent'

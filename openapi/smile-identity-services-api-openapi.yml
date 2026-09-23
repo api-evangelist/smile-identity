@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Smile ID V3 Authentication Services API
+  title: Smile ID V3 Services API
   version: 1.0.0
   description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
   contact:
@@ -26,9 +26,7 @@ paths:
       summary: List bank codes
       description: 'Returns a list of bank codes supported for bank-account-based identity
 
-        verification. Optionally filtered by country.
-
-        '
+        verification. Optionally filtered by country.'
       parameters:
       - $ref: '#/components/parameters/CountryFilter'
       responses:
@@ -54,9 +52,7 @@ paths:
 
         including their validation regex, required fields, and optional bank code.
 
-        Optionally filtered by country.
-
-        '
+        Optionally filtered by country.'
       parameters:
       - $ref: '#/components/parameters/CountryFilter'
       responses:
@@ -83,9 +79,7 @@ paths:
         in a given country, based on uptime data from the last hour.
 
 
-        Requires authentication via JWT token.
-
-        '
+        Requires authentication via JWT token.'
       parameters:
       - name: country
         in: query
@@ -136,9 +130,7 @@ paths:
 
         This endpoint does not require authentication. It is an alias of
 
-        `GET /v1/valid_documents` and `GET /v3/valid-documents`.
-
-        '
+        `GET /v1/valid_documents` and `GET /v3/valid-documents`.'
       parameters:
       - name: continent
         in: query
@@ -200,6 +192,77 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+        name:
+          type: string
+          description: Country name.
+        continent:
+          type: string
+          description: Continent name.
+    SupportedIdTypesResponse:
+      type: object
+      properties:
+        id_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedIdType'
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+    BankCodesResponse:
+      type: object
+      properties:
+        bank_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankCode'
+    SupportedDocument:
+      type: object
+      properties:
+        country:
+          $ref: '#/components/schemas/Country'
+        id_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDType'
+    IDType:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Machine-readable ID type code.
+        name:
+          type: string
+          description: Human-readable name of the ID type.
+        has_back:
+          type: boolean
+          description: Whether this document type has a back side that should be captured.
+    IdStatusErrorResponse:
+      type: object
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+        status:
+          type: string
+          description: HTTP status text (e.g. "Bad Request", "Unauthorized").
     BankCode:
       type: object
       required:
@@ -216,102 +279,6 @@ components:
         name:
           type: string
           description: Human-readable bank name.
-    SupportedIdTypesResponse:
-      type: object
-      properties:
-        id_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/SupportedIdType'
-    SupportedDocumentsResponse:
-      type: object
-      required:
-      - valid_documents
-      properties:
-        valid_documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/SupportedDocument'
-    IDType:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Machine-readable ID type code.
-        name:
-          type: string
-          description: Human-readable name of the ID type.
-        has_back:
-          type: boolean
-          description: Whether this document type has a back side that should be captured.
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
-    SupportedDocument:
-      type: object
-      properties:
-        country:
-          $ref: '#/components/schemas/Country'
-        id_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDType'
-    Country:
-      type: object
-      properties:
-        code:
-          type: string
-          description: ISO 3166-1 alpha-2 country code.
-        name:
-          type: string
-          description: Country name.
-        continent:
-          type: string
-          description: Continent name.
-    IdStatusResponse:
-      type: object
-      required:
-      - last_checked
-      - last_check_status
-      - last_hour_success_rate
-      - last_known_status
-      - last_check_success_rate
-      properties:
-        last_checked:
-          type: string
-          format: date-time
-          description: Timestamp of the most recent uptime check.
-        last_check_status:
-          type: string
-          enum:
-          - success
-          - failure
-          description: Whether the most recent check succeeded or failed.
-        last_hour_success_rate:
-          type: string
-          description: Aggregate success rate over the last hour as a percentage.
-        last_known_status:
-          type: string
-          description: The raw status string from the most recent check (e.g. "online", "offline").
-        last_check_success_rate:
-          type: string
-          description: Success rate of the most recent individual check as a percentage.
-    BankCodesResponse:
-      type: object
-      properties:
-        bank_codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/BankCode'
     SupportedIdType:
       type: object
       required:
@@ -352,18 +319,43 @@ components:
         type:
           type: string
           description: Machine-readable ID type code.
-    IdStatusErrorResponse:
+    SupportedDocumentsResponse:
       type: object
       required:
-      - message
-      - status
+      - valid_documents
       properties:
-        message:
+        valid_documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedDocument'
+    IdStatusResponse:
+      type: object
+      required:
+      - last_checked
+      - last_check_status
+      - last_hour_success_rate
+      - last_known_status
+      - last_check_success_rate
+      properties:
+        last_checked:
           type: string
-          description: Human-readable error message.
-        status:
+          format: date-time
+          description: Timestamp of the most recent uptime check.
+        last_check_status:
           type: string
-          description: HTTP status text (e.g. "Bad Request", "Unauthorized").
+          enum:
+          - success
+          - failure
+          description: Whether the most recent check succeeded or failed.
+        last_hour_success_rate:
+          type: string
+          description: Aggregate success rate over the last hour as a percentage.
+        last_known_status:
+          type: string
+          description: The raw status string from the most recent check (e.g. "online", "offline").
+        last_check_success_rate:
+          type: string
+          description: Success rate of the most recent individual check as a percentage.
   securitySchemes:
     SmileIDToken:
       type: apiKey

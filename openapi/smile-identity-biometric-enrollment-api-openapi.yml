@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Smile ID V3 Authentication Biometric Enrollment API
+  title: Smile ID V3 Biometric Enrollment API
   version: 1.0.0
   description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
   contact:
@@ -125,29 +125,22 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    Consent:
+    AcceptedResponse:
       type: object
-      required:
-      - granted
-      - granted_at
-      - notice_language
-      - notice_privacy_policy_url
       properties:
-        granted:
-          type: boolean
+        status:
+          type: string
           enum:
-          - true
-        granted_at:
+          - Accepted
+        message:
+          type: string
+        job_id:
+          type: string
+        user_id:
+          type: string
+        created_at:
           type: string
           format: date-time
-        notice_language:
-          type: string
-          minLength: 2
-          maxLength: 2
-          pattern: ^[A-Z]{2}$
-        notice_privacy_policy_url:
-          type: string
-          format: uri
     BiometricEnrollmentRequest:
       type: object
       required:
@@ -186,14 +179,16 @@ components:
               minLength: 1
               description: Last name / surname of the individual being enrolled.
             email:
-              type: string
+              type:
+              - string
+              - 'null'
               format: email
-              nullable: true
               description: Email address of the individual being enrolled. At least one of email or phone_number is required.
             phone_number:
-              type: string
+              type:
+              - string
+              - 'null'
               pattern: ^\+[1-9]\d{6,14}$
-              nullable: true
               description: Phone number in E.164 format (must start with +). At least one of email or phone_number is required.
         allow_new_enroll:
           type: boolean
@@ -226,22 +221,29 @@ components:
               value:
                 type: string
                 maxLength: 1000
-    AcceptedResponse:
+    Consent:
       type: object
+      required:
+      - granted
+      - granted_at
+      - notice_language
+      - notice_privacy_policy_url
       properties:
-        status:
-          type: string
+        granted:
+          type: boolean
           enum:
-          - Accepted
-        message:
-          type: string
-        job_id:
-          type: string
-        user_id:
-          type: string
-        created_at:
+          - true
+        granted_at:
           type: string
           format: date-time
+        notice_language:
+          type: string
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+        notice_privacy_policy_url:
+          type: string
+          format: uri
     ErrorResponse:
       type: object
       required:

@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Smile ID V3 Authentication Users API
+  title: Smile ID V3 Users API
   version: 1.0.0
   description: 'Smile ID V3 identity verification API for Africa: Biometric KYC, Document Verification, Enhanced KYC/Doc Verification, SmartSelfie enrollment/authentication/compare, plus core service and user resources. Assembled verbatim from the per-endpoint OpenAPI fragments published in the Smile ID GitBook API reference (docs.usesmileid.com/api-reference).'
   contact:
@@ -42,9 +42,7 @@ paths:
 
         The response is `202 Accepted` once the request has been validated
 
-        and handled.
-
-        '
+        and handled.'
       parameters:
       - name: user_id
         in: path
@@ -119,35 +117,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ReportUserFraudAcceptedResponse:
-      type: object
-      required:
-      - status
-      - user_id
-      properties:
-        status:
-          type: string
-          enum:
-          - accepted
-          description: Always `accepted` when the request was queued for processing.
-        message:
-          type: string
-          description: Human-readable result message.
-        user_id:
-          type: string
-          description: The `user_id` that was reported.
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
     ReportUserFraudRequest:
       type: object
       required:
@@ -195,6 +164,35 @@ components:
           format: email
           description: Email address of the person submitting the report.
       additionalProperties: true
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
+    ReportUserFraudAcceptedResponse:
+      type: object
+      required:
+      - status
+      - user_id
+      properties:
+        status:
+          type: string
+          enum:
+          - accepted
+          description: Always `accepted` when the request was queued for processing.
+        message:
+          type: string
+          description: Human-readable result message.
+        user_id:
+          type: string
+          description: The `user_id` that was reported.
   securitySchemes:
     SmileIDToken:
       type: apiKey
