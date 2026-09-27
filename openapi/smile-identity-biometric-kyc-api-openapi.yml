@@ -132,45 +132,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    AcceptedResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - Accepted
-        message:
-          type: string
-        job_id:
-          type: string
-        user_id:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    Consent:
-      type: object
-      required:
-      - granted
-      - granted_at
-      - notice_language
-      - notice_privacy_policy_url
-      properties:
-        granted:
-          type: boolean
-          enum:
-          - true
-        granted_at:
-          type: string
-          format: date-time
-        notice_language:
-          type: string
-          minLength: 2
-          maxLength: 2
-          pattern: ^[A-Z]{2}$
-        notice_privacy_policy_url:
-          type: string
-          format: uri
     BiometricKycRequest:
       type: object
       required:
@@ -261,6 +222,45 @@ components:
               value:
                 type: string
                 maxLength: 1000
+    Consent:
+      type: object
+      required:
+      - granted
+      - granted_at
+      - notice_language
+      - notice_privacy_policy_url
+      properties:
+        granted:
+          type: boolean
+          enum:
+          - true
+        granted_at:
+          type: string
+          format: date-time
+        notice_language:
+          type: string
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+        notice_privacy_policy_url:
+          type: string
+          format: uri
+    AcceptedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - Accepted
+        message:
+          type: string
+        job_id:
+          type: string
+        user_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     ErrorResponse:
       type: object
       required:

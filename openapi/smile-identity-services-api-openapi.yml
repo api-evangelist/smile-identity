@@ -192,6 +192,34 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    IdStatusResponse:
+      type: object
+      required:
+      - last_checked
+      - last_check_status
+      - last_hour_success_rate
+      - last_known_status
+      - last_check_success_rate
+      properties:
+        last_checked:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent uptime check.
+        last_check_status:
+          type: string
+          enum:
+          - success
+          - failure
+          description: Whether the most recent check succeeded or failed.
+        last_hour_success_rate:
+          type: string
+          description: Aggregate success rate over the last hour as a percentage.
+        last_known_status:
+          type: string
+          description: The raw status string from the most recent check (e.g. "online", "offline").
+        last_check_success_rate:
+          type: string
+          description: Success rate of the most recent individual check as a percentage.
     Country:
       type: object
       properties:
@@ -204,13 +232,31 @@ components:
         continent:
           type: string
           description: Continent name.
-    SupportedIdTypesResponse:
+    BankCode:
+      type: object
+      required:
+      - code
+      - country
+      - name
+      properties:
+        code:
+          type: string
+          description: Numeric bank code assigned by the country's central bank.
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+        name:
+          type: string
+          description: Human-readable bank name.
+    SupportedDocument:
       type: object
       properties:
+        country:
+          $ref: '#/components/schemas/Country'
         id_types:
           type: array
           items:
-            $ref: '#/components/schemas/SupportedIdType'
+            $ref: '#/components/schemas/IDType'
     ErrorResponse:
       type: object
       required:
@@ -230,27 +276,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BankCode'
-    SupportedDocument:
-      type: object
-      properties:
-        country:
-          $ref: '#/components/schemas/Country'
-        id_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDType'
-    IDType:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Machine-readable ID type code.
-        name:
-          type: string
-          description: Human-readable name of the ID type.
-        has_back:
-          type: boolean
-          description: Whether this document type has a back side that should be captured.
     IdStatusErrorResponse:
       type: object
       required:
@@ -263,22 +288,34 @@ components:
         status:
           type: string
           description: HTTP status text (e.g. "Bad Request", "Unauthorized").
-    BankCode:
+    SupportedDocumentsResponse:
       type: object
       required:
-      - code
-      - country
-      - name
+      - valid_documents
+      properties:
+        valid_documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedDocument'
+    SupportedIdTypesResponse:
+      type: object
+      properties:
+        id_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedIdType'
+    IDType:
+      type: object
       properties:
         code:
           type: string
-          description: Numeric bank code assigned by the country's central bank.
-        country:
-          type: string
-          description: ISO 3166-1 alpha-2 country code.
+          description: Machine-readable ID type code.
         name:
           type: string
-          description: Human-readable bank name.
+          description: Human-readable name of the ID type.
+        has_back:
+          type: boolean
+          description: Whether this document type has a back side that should be captured.
     SupportedIdType:
       type: object
       required:
@@ -319,43 +356,6 @@ components:
         type:
           type: string
           description: Machine-readable ID type code.
-    SupportedDocumentsResponse:
-      type: object
-      required:
-      - valid_documents
-      properties:
-        valid_documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/SupportedDocument'
-    IdStatusResponse:
-      type: object
-      required:
-      - last_checked
-      - last_check_status
-      - last_hour_success_rate
-      - last_known_status
-      - last_check_success_rate
-      properties:
-        last_checked:
-          type: string
-          format: date-time
-          description: Timestamp of the most recent uptime check.
-        last_check_status:
-          type: string
-          enum:
-          - success
-          - failure
-          description: Whether the most recent check succeeded or failed.
-        last_hour_success_rate:
-          type: string
-          description: Aggregate success rate over the last hour as a percentage.
-        last_known_status:
-          type: string
-          description: The raw status string from the most recent check (e.g. "online", "offline").
-        last_check_success_rate:
-          type: string
-          description: Success rate of the most recent individual check as a percentage.
   securitySchemes:
     SmileIDToken:
       type: apiKey

@@ -123,22 +123,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    AcceptedResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - Accepted
-        message:
-          type: string
-        job_id:
-          type: string
-        user_id:
-          type: string
-        created_at:
-          type: string
-          format: date-time
     SmartSelfieCompareRequest:
       type: object
       required:
@@ -253,6 +237,22 @@ components:
         notice_privacy_policy_url:
           type: string
           format: uri
+    AcceptedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - Accepted
+        message:
+          type: string
+        job_id:
+          type: string
+        user_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     ErrorResponse:
       type: object
       required:
