@@ -192,6 +192,62 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+        name:
+          type: string
+          description: Country name.
+        continent:
+          type: string
+          description: Continent name.
+    SupportedDocument:
+      type: object
+      properties:
+        country:
+          $ref: '#/components/schemas/Country'
+        id_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDType'
+    BankCode:
+      type: object
+      required:
+      - code
+      - country
+      - name
+      properties:
+        code:
+          type: string
+          description: Numeric bank code assigned by the country's central bank.
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+        name:
+          type: string
+          description: Human-readable bank name.
+    SupportedIdTypesResponse:
+      type: object
+      properties:
+        id_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedIdType'
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
     IdStatusResponse:
       type: object
       required:
@@ -220,55 +276,6 @@ components:
         last_check_success_rate:
           type: string
           description: Success rate of the most recent individual check as a percentage.
-    Country:
-      type: object
-      properties:
-        code:
-          type: string
-          description: ISO 3166-1 alpha-2 country code.
-        name:
-          type: string
-          description: Country name.
-        continent:
-          type: string
-          description: Continent name.
-    BankCode:
-      type: object
-      required:
-      - code
-      - country
-      - name
-      properties:
-        code:
-          type: string
-          description: Numeric bank code assigned by the country's central bank.
-        country:
-          type: string
-          description: ISO 3166-1 alpha-2 country code.
-        name:
-          type: string
-          description: Human-readable bank name.
-    SupportedDocument:
-      type: object
-      properties:
-        country:
-          $ref: '#/components/schemas/Country'
-        id_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDType'
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
     BankCodesResponse:
       type: object
       properties:
@@ -276,34 +283,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BankCode'
-    IdStatusErrorResponse:
-      type: object
-      required:
-      - message
-      - status
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-        status:
-          type: string
-          description: HTTP status text (e.g. "Bad Request", "Unauthorized").
-    SupportedDocumentsResponse:
-      type: object
-      required:
-      - valid_documents
-      properties:
-        valid_documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/SupportedDocument'
-    SupportedIdTypesResponse:
-      type: object
-      properties:
-        id_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/SupportedIdType'
     IDType:
       type: object
       properties:
@@ -316,6 +295,15 @@ components:
         has_back:
           type: boolean
           description: Whether this document type has a back side that should be captured.
+    SupportedDocumentsResponse:
+      type: object
+      required:
+      - valid_documents
+      properties:
+        valid_documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedDocument'
     SupportedIdType:
       type: object
       required:
@@ -356,6 +344,18 @@ components:
         type:
           type: string
           description: Machine-readable ID type code.
+    IdStatusErrorResponse:
+      type: object
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+        status:
+          type: string
+          description: HTTP status text (e.g. "Bad Request", "Unauthorized").
   securitySchemes:
     SmileIDToken:
       type: apiKey

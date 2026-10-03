@@ -99,6 +99,18 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
     JobStatusResponse:
       type: object
       required:
@@ -131,18 +143,6 @@ components:
           type: string
           format: date-time
           description: Timestamp the status response was generated (ISO 8601).
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
   securitySchemes:
     SmileIDToken:
       type: apiKey

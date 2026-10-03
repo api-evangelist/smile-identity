@@ -87,6 +87,18 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
     ReplayCallbackResponse:
       type: object
       required:
@@ -116,18 +128,6 @@ components:
           type: string
           format: uri
           description: Override callback URL. Must be on the partner's callback domain allowlist. If omitted, the stored callback URL is used.
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
   securitySchemes:
     SmileIDToken:
       type: apiKey
