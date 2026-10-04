@@ -136,18 +136,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
     Consent:
       type: object
       required:
@@ -279,6 +267,18 @@ components:
               value:
                 type: string
                 maxLength: 1000
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
   securitySchemes:
     SmileIDToken:
       type: apiKey

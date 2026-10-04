@@ -87,18 +87,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
     ReplayCallbackResponse:
       type: object
       required:
@@ -121,6 +109,18 @@ components:
         message:
           type: string
           description: Human-readable confirmation message.
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
     ReplayCallbackRequest:
       type: object
       properties:

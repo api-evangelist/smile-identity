@@ -136,41 +136,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
-    Consent:
-      type: object
-      required:
-      - granted
-      - granted_at
-      - notice_language
-      - notice_privacy_policy_url
-      properties:
-        granted:
-          type: boolean
-          enum:
-          - true
-        granted_at:
-          type: string
-          format: date-time
-        notice_language:
-          type: string
-          minLength: 2
-          maxLength: 2
-          pattern: ^[A-Z]{2}$
-        notice_privacy_policy_url:
-          type: string
-          format: uri
     AcceptedResponse:
       type: object
       properties:
@@ -278,6 +243,41 @@ components:
               value:
                 type: string
                 maxLength: 1000
+    Consent:
+      type: object
+      required:
+      - granted
+      - granted_at
+      - notice_language
+      - notice_privacy_policy_url
+      properties:
+        granted:
+          type: boolean
+          enum:
+          - true
+        granted_at:
+          type: string
+          format: date-time
+        notice_language:
+          type: string
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+        notice_privacy_policy_url:
+          type: string
+          format: uri
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
   securitySchemes:
     SmileIDToken:
       type: apiKey

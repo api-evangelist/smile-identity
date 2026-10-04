@@ -132,18 +132,22 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
+    AcceptedResponse:
       type: object
-      required:
-      - status
-      - message
       properties:
         status:
           type: string
-          description: HTTP status text.
+          enum:
+          - Accepted
         message:
           type: string
-          description: Human-readable error message.
+        job_id:
+          type: string
+        user_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     Consent:
       type: object
       required:
@@ -167,22 +171,18 @@ components:
         notice_privacy_policy_url:
           type: string
           format: uri
-    AcceptedResponse:
+    ErrorResponse:
       type: object
+      required:
+      - status
+      - message
       properties:
         status:
           type: string
-          enum:
-          - Accepted
+          description: HTTP status text.
         message:
           type: string
-        job_id:
-          type: string
-        user_id:
-          type: string
-        created_at:
-          type: string
-          format: date-time
+          description: Human-readable error message.
     BiometricKycRequest:
       type: object
       required:

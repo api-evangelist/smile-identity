@@ -117,18 +117,23 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
+    ReportUserFraudAcceptedResponse:
       type: object
       required:
       - status
-      - message
+      - user_id
       properties:
         status:
           type: string
-          description: HTTP status text.
+          enum:
+          - accepted
+          description: Always `accepted` when the request was queued for processing.
         message:
           type: string
-          description: Human-readable error message.
+          description: Human-readable result message.
+        user_id:
+          type: string
+          description: The `user_id` that was reported.
     ReportUserFraudRequest:
       type: object
       required:
@@ -176,23 +181,18 @@ components:
           format: email
           description: Email address of the person submitting the report.
       additionalProperties: true
-    ReportUserFraudAcceptedResponse:
+    ErrorResponse:
       type: object
       required:
       - status
-      - user_id
+      - message
       properties:
         status:
           type: string
-          enum:
-          - accepted
-          description: Always `accepted` when the request was queued for processing.
+          description: HTTP status text.
         message:
           type: string
-          description: Human-readable result message.
-        user_id:
-          type: string
-          description: The `user_id` that was reported.
+          description: Human-readable error message.
   securitySchemes:
     SmileIDToken:
       type: apiKey
