@@ -285,6 +285,8 @@ common:
   url: agentic-access/smile-identity-agentic-access.yml
 - type: AgentSkill
   url: skills/_index.yml
+- type: SpectralRules
+  url: https://github.com/smileidentity/api-reference/blob/ee22a25c4c7b9e433e4fb5422f305b30773a8c2b/.spectral.yaml
 x-enrichment:
   date: '2026-07-21'
   status: enriched

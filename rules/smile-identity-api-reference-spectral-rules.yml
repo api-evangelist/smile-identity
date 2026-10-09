@@ -1,0 +1,32 @@
+# harvested from https://github.com/smileidentity/api-reference/blob/ee22a25c4c7b9e433e4fb5422f305b30773a8c2b/.spectral.yaml on 2026-10-09 — a Spectral ruleset published in the provider's own GitHub repository (smileidentity/api-reference); found by GitHub code search, fetched verbatim
+x-method: harvested
+x-stamped: 2026-10-09
+x-source-url: https://github.com/smileidentity/api-reference/blob/ee22a25c4c7b9e433e4fb5422f305b30773a8c2b/.spectral.yaml
+extends:
+  - spectral:oas
+
+rules:
+  # Block leakage of internal infrastructure / tooling names into customer-facing
+  # spec text. Terms below name our internal stack and have no business in API
+  # descriptions. Add new terms here as they come up; remove false positives if
+  # a customer-facing concept genuinely shares a name.
+  #
+  # Kept on a single line: YAML folded scalars (`>-`) insert spaces at line
+  # breaks, which would silently break the alternation.
+  no-internal-references:
+    description: Specs must not reference internal architecture, infrastructure, or tooling
+    severity: error
+    given: "$..description"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "\\b(DynamoDB|SQS|Lambda|S3|Kinesis|EventBridge|ECR|ECS|EKS|Fargate|Cognito|KMS|Pulumi|Terraform|CloudFormation|CDK|Parameter Store|SecretsManager|Secrets Manager|VPC|NACL|PostgreSQL|pgvector|pgbouncer|Redshift|Snowflake|OpenSearch|Elasticsearch|MongoDB|DocumentDB|Aurora|Convox|Sentry|Datadog|Grafana|Prometheus|LaunchDarkly|Optimizely|Sidekiq|Airflow|Mixpanel|Segment|FullStory|access_logs|embedding|enrollee_index|fraud_index)\\b"
+
+  # Require operation IDs.
+  operation-operationId: error
+
+  # Require descriptions on operations.
+  operation-description: warn
+
+  # Info section requirements.
+  info-description: error
