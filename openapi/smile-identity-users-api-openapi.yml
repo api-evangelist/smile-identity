@@ -117,6 +117,18 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - message
+      properties:
+        status:
+          type: string
+          description: HTTP status text.
+        message:
+          type: string
+          description: Human-readable error message.
     ReportUserFraudAcceptedResponse:
       type: object
       required:
@@ -181,18 +193,6 @@ components:
           format: email
           description: Email address of the person submitting the report.
       additionalProperties: true
-    ErrorResponse:
-      type: object
-      required:
-      - status
-      - message
-      properties:
-        status:
-          type: string
-          description: HTTP status text.
-        message:
-          type: string
-          description: Human-readable error message.
   securitySchemes:
     SmileIDToken:
       type: apiKey

@@ -146,22 +146,18 @@ components:
         notice_privacy_policy_url:
           type: string
           format: uri
-    AcceptedResponse:
+    ErrorResponse:
       type: object
+      required:
+      - status
+      - message
       properties:
         status:
           type: string
-          enum:
-          - Accepted
+          description: HTTP status text.
         message:
           type: string
-        job_id:
-          type: string
-        user_id:
-          type: string
-        created_at:
-          type: string
-          format: date-time
+          description: Human-readable error message.
     SmartSelfieCompareRequest:
       type: object
       required:
@@ -253,18 +249,22 @@ components:
               value:
                 type: string
                 maxLength: 1000
-    ErrorResponse:
+    AcceptedResponse:
       type: object
-      required:
-      - status
-      - message
       properties:
         status:
           type: string
-          description: HTTP status text.
+          enum:
+          - Accepted
         message:
           type: string
-          description: Human-readable error message.
+        job_id:
+          type: string
+        user_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
   securitySchemes:
     SmileIDToken:
       type: apiKey
