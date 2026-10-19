@@ -1,0 +1,127 @@
+edges:
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@smile_identity/smart-camera-web
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@smile_identity/smart-camera-web'
+      version: 11.0.1
+      released: '2026-01-20'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@smile_identity/smart-camera-web
+      repo_leg: github-org:smileidentity
+      publisher_leg: email:usesmileid.com
+      matched_by: domain
+    - name: '@smileid/web-sdk'
+      version: 12.2.1
+      released: '2026-10-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@smileid/web-sdk
+      repo_leg: github-org:smileidentity
+      publisher_leg: email:usesmileid.com
+      matched_by: domain
+    - name: smile-identity-core
+      version: 3.2.1
+      released: '2026-06-24'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/smile-identity-core
+      repo_leg: github-org:smileidentity
+      publisher_leg: email:usesmileid.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: PyPI
+  partner: pypi
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Python)
+  evidence: https://pypi.org/project/smile-id-core/
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: PyPI (public registry JSON)
+    spec_file: null
+    language: Python
+    packages:
+    - name: smile-id-core
+      version: 3.0.1
+      released: '2025-04-28'
+      released_field: upload_time
+      lapsed: false
+      page: https://pypi.org/project/smile-id-core/
+      repo_leg: github-org:smileidentity
+      publisher_leg: email:usesmileid.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: RubyGems
+  partner: rubygems
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Ruby)
+  evidence: https://rubygems.org/gems/smile-identity-core
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: RubyGems (public registry JSON)
+    spec_file: null
+    language: Ruby
+    packages:
+    - name: smile-identity-core
+      version: 3.0.0
+      released: '2026-09-07'
+      released_field: version_created_at
+      lapsed: false
+      page: https://rubygems.org/gems/smile-identity-core
+      repo_leg: domain:usesmileid.com
+      publisher_leg: org:smileidentity
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+generated: '2026-10-18'
+method: searched
+source:
+- https://api.nuget.org/v3
+- https://crates.io/api/v1
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
+checked:
+- https://api.nuget.org/v3
+- https://crates.io/api/v1
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
